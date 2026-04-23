@@ -1,0 +1,21 @@
+@use '../utils/variables';
+@use '../utils/mixins';
+
+.footer {
+}
+
+.pagination__pages {
+}
+
+.copyright__text {
+    text-align: center;
+    margin: 0 auto;
+    color: variables.$header-input-text-color;
+    @include mixins.text(16px, 1.22, 400);
+}
+
+@media (min-width: 768px) {
+    .copyright__text {
+        font-size: 18px;
+    }
+}

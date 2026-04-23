@@ -1,1 +1,7 @@
-@import 'base/reset';
+@use 'base/reset';
+@use 'components/container';
+@use 'components/header';
+@use 'components/footer';
+@use 'components/card';
+@use 'components/card_list';
+@use 'components/modal';

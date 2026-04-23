@@ -1,0 +1,13 @@
+@use '../utils/variables';
+
+@mixin text($font-size, $line-height, $font-weight) {
+    font-family: 'Montserrat';
+    font-size: $font-size;
+    line-height: $line-height;
+    font-weight: $font-weight;
+}
+
+@mixin logoSize {
+    @debug calc(variables.$logo-coeff-square * 100wv * 100wv + variables.$logo-coeff-linear * 100wv + variables.$logo-coeff-constant)
+}
+

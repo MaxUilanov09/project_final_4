@@ -13,4 +13,6 @@ async function getEvents(id = -1, suffixes = [], options = {}) {
     }
 }
 
-console.log(getEvents());
+// console.log(getEvents());
+
+import {} from './logo';

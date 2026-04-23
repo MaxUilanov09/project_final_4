@@ -207,15 +207,15 @@
       });
     }
   }
-})({"9wUO6":[function(require,module,exports,__globalThis) {
+})({"kJIY7":[function(require,module,exports,__globalThis) {
 var global = arguments[3];
 var HMR_HOST = null;
 var HMR_PORT = null;
 var HMR_SERVER_PORT = 4321;
 var HMR_SECURE = false;
-var HMR_ENV_HASH = "d6ea1d42532a7575";
+var HMR_ENV_HASH = "439701173a9199ea";
 var HMR_USE_SSE = false;
-module.bundle.HMR_BUNDLE_ID = "7055c94b59712999";
+module.bundle.HMR_BUNDLE_ID = "c1706a4c380419b9";
 "use strict";
 /* global HMR_HOST, HMR_PORT, HMR_SERVER_PORT, HMR_ENV_HASH, HMR_SECURE, HMR_USE_SSE, chrome, browser, __parcel__import__, __parcel__importScripts__, ServiceWorkerGlobalScope */ /*::
 import type {
@@ -713,8 +713,58 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
     }
 }
 
-},{}],"4M6V8":[function(require,module,exports,__globalThis) {
+},{}],"2xGku":[function(require,module,exports,__globalThis) {
+// console.log(getEvents());
+var _logo = require("./logo");
+const MAIN_URL = 'https://app.ticketmaster.com/discovery/v2/events.json?apikey=5P2eENX3jSAJ1avlQtGveA6HpNKohevi';
+async function getEvents(id = -1, suffixes = [], options = {}) {
+    try {
+        let path = id === -1 ? '' : `/${id}`;
+        const res = await fetch(MAIN_URL + path, options);
+        const data = await res.json();
+        return data;
+    } catch (error) {
+        console.log(error);
+    }
+}
 
-},{}]},["9wUO6","4M6V8"], "4M6V8", "parcelRequire491a", {})
+},{"./logo":"2GRI6"}],"2GRI6":[function(require,module,exports,__globalThis) {
+const headerStyle = document.querySelector('.header').style;
+const headerTitleStyle = document.querySelector('.header__title').style;
+const bg_coeff_linear = 0.13565;
+const bg_coeff_squareRoot = 8.57356;
+const bg_coeff_constant = 17.22356;
+const logo_coeff_linear = 0.0671306;
+const logo_coeff_squareRoot = 1.01031;
+const logo_coeff_constant = 20.44533;
+const title_coeff_linear = 0.0994054;
+const title_coeff_squareRoot = -3.31156;
+const title_coeff_constant = 45.4292;
+const title_lineHeight = 1.22;
+const title_width_to_height_ratio = 4.85;
+function getWidthBg() {
+    const windowWidth = window.innerWidth;
+    return bg_coeff_linear * windowWidth + bg_coeff_squareRoot * Math.sqrt(windowWidth) + bg_coeff_constant;
+}
+function getWidthLogo() {
+    const windowWidth = window.innerWidth;
+    return logo_coeff_linear * windowWidth + logo_coeff_squareRoot * Math.sqrt(windowWidth) + logo_coeff_constant;
+}
+function getHeightTitle() {
+    const windowWidth = window.innerWidth;
+    return Math.min(64, title_coeff_linear * windowWidth + title_coeff_squareRoot * Math.sqrt(windowWidth) + title_coeff_constant);
+}
+headerStyle.setProperty('--logo-width-bg', getWidthBg());
+headerStyle.setProperty('--logo-width-logo', getWidthLogo());
+headerTitleStyle.setProperty('font-size', Math.floor(getHeightTitle()) + 'px');
+headerTitleStyle.setProperty('width', Math.floor(getHeightTitle() * title_lineHeight * 2 * title_width_to_height_ratio) + 'px');
+addEventListener('resize', ()=>{
+    headerStyle.setProperty('--logo-width-bg', getWidthBg());
+    headerStyle.setProperty('--logo-width-logo', getWidthLogo());
+    headerTitleStyle.setProperty('font-size', Math.floor(getHeightTitle()) + 'px');
+    headerTitleStyle.setProperty('width', Math.floor(getHeightTitle() * title_lineHeight * 2 * title_width_to_height_ratio) + 'px');
+});
 
-//# sourceMappingURL=project_final_4.59712999.js.map
+},{}]},["kJIY7","2xGku"], "2xGku", "parcelRequire491a", {})
+
+//# sourceMappingURL=project_final_4.380419b9.js.map

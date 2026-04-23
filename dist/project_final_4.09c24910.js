@@ -8,7 +8,6 @@ async function getEvents(id = -1, suffixes = [], options = {}) {
     } catch (error) {
         console.log(error);
     }
-}
-console.log(getEvents());
+} // console.log(getEvents());
 
 //# sourceMappingURL=project_final_4.09c24910.js.map
