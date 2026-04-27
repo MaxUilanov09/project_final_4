@@ -716,19 +716,9 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
 },{}],"2xGku":[function(require,module,exports,__globalThis) {
 // console.log(getEvents());
 var _logo = require("./logo");
-const MAIN_URL = 'https://app.ticketmaster.com/discovery/v2/events.json?apikey=5P2eENX3jSAJ1avlQtGveA6HpNKohevi';
-async function getEvents(id = -1, suffixes = [], options = {}) {
-    try {
-        let path = id === -1 ? '' : `/${id}`;
-        const res = await fetch(MAIN_URL + path, options);
-        const data = await res.json();
-        return data;
-    } catch (error) {
-        console.log(error);
-    }
-}
+var _api = require("./api");
 
-},{"./logo":"2GRI6"}],"2GRI6":[function(require,module,exports,__globalThis) {
+},{"./logo":"2GRI6","./api":"4yEOZ"}],"2GRI6":[function(require,module,exports,__globalThis) {
 const headerStyle = document.querySelector('.header').style;
 const headerTitleStyle = document.querySelector('.header__title').style;
 const bg_coeff_linear = 0.13565;
@@ -764,6 +754,20 @@ addEventListener('resize', ()=>{
     headerTitleStyle.setProperty('font-size', Math.floor(getHeightTitle()) + 'px');
     headerTitleStyle.setProperty('width', Math.floor(getHeightTitle() * title_lineHeight * 2 * title_width_to_height_ratio) + 'px');
 });
+
+},{}],"4yEOZ":[function(require,module,exports,__globalThis) {
+const MAIN_URL = 'https://app.ticketmaster.com/discovery/v2/events.json?';
+const API_KEY = 'apikey=5P2eENX3jSAJ1avlQtGveA6HpNKohevi';
+async function getEvents(queryOptions = []) {
+    try {
+        let path = '';
+        const res = await fetch(MAIN_URL + API_KEY + path);
+        const data = await res.json();
+        return data;
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 },{}]},["kJIY7","2xGku"], "2xGku", "parcelRequire491a", {})
 
