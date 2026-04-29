@@ -139,6 +139,7 @@ body {
 }
 
 .dropdown__content {
+  overscroll-behavior-y: none;
   max-height: 0;
   transition: max-height .25s ease-in;
   position: absolute;

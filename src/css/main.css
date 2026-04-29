@@ -159,6 +159,7 @@ body {
   max-height: 0px;
   overflow: scroll;
   transition: max-height 0.25s ease-in;
+  overscroll-behavior-y: none;
 }
 
 .button__country {

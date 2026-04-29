@@ -264,7 +264,9 @@ export function fillDropdown(query, container, PathOptions) {
     container.querySelectorAll(".button__country").forEach(button => {
         button.addEventListener('click', () => {
             PathOptions.code = button.dataset.id;
+            document.querySelector('.input__country').value = '';
             document.querySelector('.input__country').setAttribute('placeholder', button.textContent);
+            fillDropdown('', container, PathOptions);
         })
     })
 }
