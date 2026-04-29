@@ -721,13 +721,18 @@ var _cardJs = require("./card.js");
 var _modalJs = require("./modal/modal.js");
 const dropdownDiv = document.querySelector('.dropdown__content');
 const eventCardList = document.querySelector('.event__card__list');
+const inputCountry = document.querySelector('.input__country');
 let PathOptions = {
     code: -1,
     query: '',
     page: 0
 };
-(0, _dropdownJs.fillDropdown)(dropdownDiv, PathOptions);
+(0, _dropdownJs.fillDropdown)('', dropdownDiv, PathOptions);
 (0, _apiJs.getEvents)(PathOptions).then((data)=>(0, _cardJs.fillCardList)(eventCardList, (0, _apiJs.getEventData)(data)));
+inputCountry.addEventListener('keyup', ()=>{
+    console.log(inputCountry.value);
+    (0, _dropdownJs.fillDropdown)(inputCountry.value, dropdownDiv, PathOptions);
+});
 
 },{"./logo.js":"2GRI6","./api.js":"4yEOZ","./dropdown.js":"2nhSG","./modal/modal.js":"lLLVz","./card.js":"iiT7g"}],"2GRI6":[function(require,module,exports,__globalThis) {
 const headerStyle = document.querySelector('.header').style;
@@ -1840,15 +1845,13 @@ const countries = [
 function createMarkup(country_name, country_code) {
     return `<button data-id="${country_code}" type="button" class="button__country">${country_name}</button>`;
 }
-function fillDropdown(container, PathOptions) {
-    for (const countryArr of countries){
-        if (countryArr[0][0] === 'B') break;
-        container.innerHTML += createMarkup(...countryArr);
-    }
+function fillDropdown(query, container, PathOptions) {
+    container.innerHTML = '';
+    for (const countryArr of countries)if (query === '' || countryArr[0].toLowerCase().slice(0, query.length) === query.toLowerCase()) container.innerHTML += createMarkup(...countryArr);
     container.querySelectorAll(".button__country").forEach((button)=>{
         button.addEventListener('click', ()=>{
             PathOptions.code = button.dataset.id;
-            document.querySelector('.').setAttribute('placeholder', button.dataset.id);
+            document.querySelector('.input__country').setAttribute('placeholder', button.textContent);
         });
     });
 }

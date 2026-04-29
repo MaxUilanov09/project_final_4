@@ -3,13 +3,15 @@
 }
 
 .dropdown:hover .dropdown__content {
-    display: block;
+    max-height: 320px;
 }
 
 .dropdown__content {
-    display: none;
     position: absolute;
     top: 100%;
+    max-height: 0px;
+    overflow: scroll;
+    transition: max-height 0.25s ease-in;
 }
 
 .button__country {
@@ -20,4 +22,9 @@
     border-bottom: solid #4b4b4b 1px;
     background-color: #404040;
     color:#c0c0c0;
+    transition: background-color 0.2s ease-out;
+}
+
+.button__country:hover {
+    background-color: #2c2c2c;
 }

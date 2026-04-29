@@ -254,16 +254,17 @@ function createMarkup(country_name, country_code) {
     return `<button data-id="${country_code}" type="button" class="button__country">${country_name}</button>`;
 }
 
-export function fillDropdown(container, PathOptions) {
+export function fillDropdown(query, container, PathOptions) {
+    container.innerHTML = '';
     for (const countryArr of countries) {
-        if (countryArr[0][0] === 'B') break;
-        container.innerHTML += createMarkup(...countryArr);
+        if (query === '' || countryArr[0].toLowerCase().slice(0, query.length) === query.toLowerCase()) {
+            container.innerHTML += createMarkup(...countryArr);
+        }
     }
     container.querySelectorAll(".button__country").forEach(button => {
         button.addEventListener('click', () => {
             PathOptions.code = button.dataset.id;
-            document.querySelector('.').setAttribute('placeholder', button.dataset.id);
+            document.querySelector('.input__country').setAttribute('placeholder', button.textContent);
         })
     })
 }
-
