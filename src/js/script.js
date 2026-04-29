@@ -1,10 +1,4 @@
-<<<<<<< HEAD
-// console.log(getEvents());
 
-import {} from "./logo.js";
-import {} from "./api.js";
-import {} from "./modal/modal.js";
-=======
 import {} from './logo.js';
 import { getEvents, getEventData } from './api.js';
 import { fillDropdown } from './dropdown.js';
@@ -31,4 +25,3 @@ inputCountry.addEventListener('keyup', () => {
     console.log(inputCountry.value);
     fillDropdown(inputCountry.value, dropdownDiv, PathOptions);
 })
->>>>>>> 8cb89737378d8eb9067ebd742947a9cee7aa4d62

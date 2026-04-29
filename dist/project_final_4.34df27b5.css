@@ -181,4 +181,138 @@ body {
 .event__card {
   color: #fff;
 }
+
+@keyframes modalOpen {
+  from {
+    opacity: 0;
+    transform: scale(.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.modal-overlay {
+  backdrop-filter: blur(6px);
+  z-index: 1000;
+  background: #000000b3;
+  justify-content: center;
+  align-items: center;
+  display: none;
+  position: fixed;
+  inset: 0;
+}
+
+.modal-content {
+  background: #fff;
+  border-radius: 40px;
+  width: 942px;
+  height: 1023px;
+  animation: .3s modalOpen;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+}
+
+.modal-left {
+  flex-shrink: 0;
+  width: 360px;
+  height: 641px;
+  position: relative;
+}
+
+.modal-left img {
+  -o-object-fit: cover;
+  object-fit: cover;
+  width: 360px;
+  height: 641px;
+  display: block;
+}
+
+.modal-circle {
+  opacity: 1;
+  background: #dc56c5;
+  border-top-left-radius: 50px;
+  border-bottom-right-radius: 50px;
+  width: 132px;
+  height: 132px;
+  position: absolute;
+  top: 40px;
+  left: 240px;
+}
+
+.modal-right {
+  flex: 1;
+  padding: 40px;
+  position: relative;
+  overflow-y: auto;
+}
+
+.modal-close {
+  cursor: pointer;
+  color: #000;
+  z-index: 9999;
+  background: none;
+  border: none;
+  font-size: 42px;
+  line-height: 1;
+  position: absolute;
+  top: 20px;
+  right: 25px;
+}
+
+.modal-right h2 {
+  margin-bottom: 20px;
+  font-size: 32px;
+}
+
+.modal-section {
+  margin-bottom: 18px;
+}
+
+.modal-section h4 {
+  color: #dc56c5;
+  letter-spacing: 1px;
+  margin-bottom: 5px;
+  font-size: 24px;
+}
+
+.modal-section p {
+  color: #333;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.price-item {
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+  display: flex;
+}
+
+.price-item span {
+  font-size: 14px;
+}
+
+.price-item a {
+  color: #fff;
+  background: #000;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 12px;
+  text-decoration: none;
+}
+
+.more-btn {
+  color: #fff;
+  background: #000;
+  border-radius: 10px;
+  margin-top: 25px;
+  padding: 14px 20px;
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-block;
+}
 /*# sourceMappingURL=project_final_4.34df27b5.css.map */
