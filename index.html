@@ -14,6 +14,7 @@
   </head>
   <body>
     <header class="header">
+<<<<<<< HEAD
       <h1 class="header__title">FIND BEST EVENTS AROUND THE WORLD</h1>
       <div class="header__inputs">
         <div class="header__input__wrap">
@@ -23,6 +24,19 @@
             placeholder="Start searching"
           />
           <img class="input__icon__search" src="./src/images/search_icon.svg" />
+=======
+        <h1 class="header__title">FIND BEST EVENTS AROUND THE WORLD</h1>
+        <div class="header__inputs">
+            <div class="header__input__wrap">
+                <input type="text" class="input__query" data-query="" placeholder="Start searching">
+                <img class="input__icon__search" src="./src/images/search_icon.svg">
+            </div>
+            <div class="header__input__wrap dropdown">
+                <input type="text" class="input__country" data-code="-1" placeholder="Choose country">
+                <img class="input__icon__dropdown" src="./src/images/dropdown_icon.svg">
+                <div class="dropdown__content"></div>
+            </div>
+>>>>>>> 8cb89737378d8eb9067ebd742947a9cee7aa4d62
         </div>
         <div class="header__input__wrap">
           <input
@@ -38,6 +52,7 @@
       </div>
     </header>
     <main class="main">
+<<<<<<< HEAD
       <ul class="card__list">
         <li
           class="event-card"
@@ -119,6 +134,31 @@
           </div>
         </div>
       </section>
+=======
+        <ul class="event__card__list"></ul>
+
+        <section class="main-modal">
+            <div class="modal-overlay" id="modal">
+                <div class="modal-content">
+                    <button type="button" class="modal-close">×</button>
+
+                    <div class="modal-body">
+                        <img id="modal-image" src="#" alt="event image" />
+
+                        <div class="modal-info">
+                            <h2 id="modal-title"></h2>
+
+                            <p id="modal-date"></p>
+
+                            <p id="modal-description"></p>
+
+                            <a id="modal-link" target="_blank"> BUY TICKETS </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+>>>>>>> 8cb89737378d8eb9067ebd742947a9cee7aa4d62
     </main>
     <footer class="footer">
       <div class="pagination__pages"></div>

@@ -714,11 +714,27 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
 }
 
 },{}],"2xGku":[function(require,module,exports,__globalThis) {
-// console.log(getEvents());
-var _logo = require("./logo");
-var _api = require("./api");
+var _logoJs = require("./logo.js");
+var _apiJs = require("./api.js");
+var _dropdownJs = require("./dropdown.js");
+var _cardJs = require("./card.js");
+var _modalJs = require("./modal/modal.js");
+const dropdownDiv = document.querySelector('.dropdown__content');
+const eventCardList = document.querySelector('.event__card__list');
+const inputCountry = document.querySelector('.input__country');
+let PathOptions = {
+    code: -1,
+    query: '',
+    page: 0
+};
+(0, _dropdownJs.fillDropdown)('', dropdownDiv, PathOptions);
+(0, _apiJs.getEvents)(PathOptions).then((data)=>(0, _cardJs.fillCardList)(eventCardList, (0, _apiJs.getEventData)(data)));
+inputCountry.addEventListener('keyup', ()=>{
+    console.log(inputCountry.value);
+    (0, _dropdownJs.fillDropdown)(inputCountry.value, dropdownDiv, PathOptions);
+});
 
-},{"./logo":"2GRI6","./api":"4yEOZ"}],"2GRI6":[function(require,module,exports,__globalThis) {
+},{"./logo.js":"2GRI6","./api.js":"4yEOZ","./dropdown.js":"2nhSG","./modal/modal.js":"lLLVz","./card.js":"iiT7g"}],"2GRI6":[function(require,module,exports,__globalThis) {
 const headerStyle = document.querySelector('.header').style;
 const headerTitleStyle = document.querySelector('.header__title').style;
 const bg_coeff_linear = 0.13565;
@@ -754,13 +770,24 @@ addEventListener('resize', ()=>{
     headerTitleStyle.setProperty('font-size', Math.floor(getHeightTitle()) + 'px');
     headerTitleStyle.setProperty('width', Math.floor(getHeightTitle() * title_lineHeight * 2 * title_width_to_height_ratio) + 'px');
 });
+console.log('logo created');
 
 },{}],"4yEOZ":[function(require,module,exports,__globalThis) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "getEventData", ()=>getEventData);
+parcelHelpers.export(exports, "getEvents", ()=>getEvents);
 const MAIN_URL = 'https://app.ticketmaster.com/discovery/v2/events.json?';
 const API_KEY = 'apikey=5P2eENX3jSAJ1avlQtGveA6HpNKohevi';
-async function getEvents(queryOptions = []) {
+function getEventData(data) {
+    return data._embedded.events;
+}
+async function getEvents(queryOptions) {
     try {
         let path = '';
+        if (queryOptions.code !== -1) path += `&countryCode=${queryOptions.code}`;
+        if (queryOptions.query !== '') path += `&keyword=${queryOptions.query}`;
+        if (queryOptions.page !== 0) path += `&page=${queryOptions.page}`;
         const res = await fetch(MAIN_URL + API_KEY + path);
         const data = await res.json();
         return data;
@@ -769,6 +796,1089 @@ async function getEvents(queryOptions = []) {
     }
 }
 
-},{}]},["kJIY7","2xGku"], "2xGku", "parcelRequire491a", {})
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"jnFvT":[function(require,module,exports,__globalThis) {
+exports.interopDefault = function(a) {
+    return a && a.__esModule ? a : {
+        default: a
+    };
+};
+exports.defineInteropFlag = function(a) {
+    Object.defineProperty(a, '__esModule', {
+        value: true
+    });
+};
+exports.exportAll = function(source, dest) {
+    Object.keys(source).forEach(function(key) {
+        if (key === 'default' || key === '__esModule' || Object.prototype.hasOwnProperty.call(dest, key)) return;
+        Object.defineProperty(dest, key, {
+            enumerable: true,
+            get: function() {
+                return source[key];
+            }
+        });
+    });
+    return dest;
+};
+exports.export = function(dest, destName, get) {
+    Object.defineProperty(dest, destName, {
+        enumerable: true,
+        get: get
+    });
+};
+
+},{}],"2nhSG":[function(require,module,exports,__globalThis) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "fillDropdown", ()=>fillDropdown);
+const countries = [
+    [
+        "Afghanistan",
+        "AF"
+    ],
+    [
+        "\xc5land Islands",
+        "AX"
+    ],
+    [
+        "Albania",
+        "AL"
+    ],
+    [
+        "Algeria",
+        "DZ"
+    ],
+    [
+        "American Samoa",
+        "AS"
+    ],
+    [
+        "Andorra",
+        "AD"
+    ],
+    [
+        "Angola",
+        "AO"
+    ],
+    [
+        "Anguilla",
+        "AI"
+    ],
+    [
+        "Antarctica",
+        "AQ"
+    ],
+    [
+        "Antigua and Barbuda",
+        "AG"
+    ],
+    [
+        "Argentina",
+        "AR"
+    ],
+    [
+        "Armenia",
+        "AM"
+    ],
+    [
+        "Aruba",
+        "AW"
+    ],
+    [
+        "Australia",
+        "AU"
+    ],
+    [
+        "Austria",
+        "AT"
+    ],
+    [
+        "Azerbaijan",
+        "AZ"
+    ],
+    [
+        "Bahamas",
+        "BS"
+    ],
+    [
+        "Bahrain",
+        "BH"
+    ],
+    [
+        "Bangladesh",
+        "BD"
+    ],
+    [
+        "Barbados",
+        "BB"
+    ],
+    [
+        "Belarus",
+        "BY"
+    ],
+    [
+        "Belgium",
+        "BE"
+    ],
+    [
+        "Belize",
+        "BZ"
+    ],
+    [
+        "Benin",
+        "BJ"
+    ],
+    [
+        "Bermuda",
+        "BM"
+    ],
+    [
+        "Bhutan",
+        "BT"
+    ],
+    [
+        "Bolivia",
+        " Plurinational State of",
+        "BO"
+    ],
+    [
+        "Bonaire",
+        " Sint Eustatius and Saba",
+        "BQ"
+    ],
+    [
+        "Bosnia and Herzegovina",
+        "BA"
+    ],
+    [
+        "Botswana",
+        "BW"
+    ],
+    [
+        "Bouvet Island",
+        "BV"
+    ],
+    [
+        "Brazil",
+        "BR"
+    ],
+    [
+        "British Indian Ocean Territory",
+        "IO"
+    ],
+    [
+        "Brunei Darussalam",
+        "BN"
+    ],
+    [
+        "Bulgaria",
+        "BG"
+    ],
+    [
+        "Burkina Faso",
+        "BF"
+    ],
+    [
+        "Burundi",
+        "BI"
+    ],
+    [
+        "Cabo Verde",
+        "CV"
+    ],
+    [
+        "Cambodia",
+        "KH"
+    ],
+    [
+        "Cameroon",
+        "CM"
+    ],
+    [
+        "Canada",
+        "CA"
+    ],
+    [
+        "Cayman Islands",
+        "KY"
+    ],
+    [
+        "Central African Republic",
+        "CF"
+    ],
+    [
+        "Chad",
+        "TD"
+    ],
+    [
+        "Chile",
+        "CL"
+    ],
+    [
+        "China",
+        "CN"
+    ],
+    [
+        "Christmas Island",
+        "CX"
+    ],
+    [
+        "Cocos (Keeling) Islands",
+        "CC"
+    ],
+    [
+        "Colombia",
+        "CO"
+    ],
+    [
+        "Comoros",
+        "KM"
+    ],
+    [
+        "Congo",
+        "CG"
+    ],
+    [
+        "Congo",
+        " Democratic Republic of the",
+        "CD"
+    ],
+    [
+        "Cook Islands",
+        "CK"
+    ],
+    [
+        "Costa Rica",
+        "CR"
+    ],
+    [
+        "C\xf4te d'Ivoire",
+        "CI"
+    ],
+    [
+        "Croatia",
+        "HR"
+    ],
+    [
+        "Cuba",
+        "CU"
+    ],
+    [
+        "Cura\xe7ao",
+        "CW"
+    ],
+    [
+        "Cyprus",
+        "CY"
+    ],
+    [
+        "Czechia",
+        "CZ"
+    ],
+    [
+        "Denmark",
+        "DK"
+    ],
+    [
+        "Djibouti",
+        "DJ"
+    ],
+    [
+        "Dominica",
+        "DM"
+    ],
+    [
+        "Dominican Republic",
+        "DO"
+    ],
+    [
+        "Ecuador",
+        "EC"
+    ],
+    [
+        "Egypt",
+        "EG"
+    ],
+    [
+        "El Salvador",
+        "SV"
+    ],
+    [
+        "Equatorial Guinea",
+        "GQ"
+    ],
+    [
+        "Eritrea",
+        "ER"
+    ],
+    [
+        "Estonia",
+        "EE"
+    ],
+    [
+        "Eswatini",
+        "SZ"
+    ],
+    [
+        "Ethiopia",
+        "ET"
+    ],
+    [
+        "Falkland Islands (Malvinas)",
+        "FK"
+    ],
+    [
+        "Faroe Islands",
+        "FO"
+    ],
+    [
+        "Fiji",
+        "FJ"
+    ],
+    [
+        "Finland",
+        "FI"
+    ],
+    [
+        "France",
+        "FR"
+    ],
+    [
+        "French Guiana",
+        "GF"
+    ],
+    [
+        "French Polynesia",
+        "PF"
+    ],
+    [
+        "French Southern Territories",
+        "TF"
+    ],
+    [
+        "Gabon",
+        "GA"
+    ],
+    [
+        "Gambia",
+        "GM"
+    ],
+    [
+        "Georgia",
+        "GE"
+    ],
+    [
+        "Germany",
+        "DE"
+    ],
+    [
+        "Ghana",
+        "GH"
+    ],
+    [
+        "Gibraltar",
+        "GI"
+    ],
+    [
+        "Greece",
+        "GR"
+    ],
+    [
+        "Greenland",
+        "GL"
+    ],
+    [
+        "Grenada",
+        "GD"
+    ],
+    [
+        "Guadeloupe",
+        "GP"
+    ],
+    [
+        "Guam",
+        "GU"
+    ],
+    [
+        "Guatemala",
+        "GT"
+    ],
+    [
+        "Guernsey",
+        "GG"
+    ],
+    [
+        "Guinea",
+        "GN"
+    ],
+    [
+        "Guinea-Bissau",
+        "GW"
+    ],
+    [
+        "Guyana",
+        "GY"
+    ],
+    [
+        "Haiti",
+        "HT"
+    ],
+    [
+        "Heard Island and McDonald Islands",
+        "HM"
+    ],
+    [
+        "Holy See",
+        "VA"
+    ],
+    [
+        "Honduras",
+        "HN"
+    ],
+    [
+        "Hong Kong",
+        "HK"
+    ],
+    [
+        "Hungary",
+        "HU"
+    ],
+    [
+        "Iceland",
+        "IS"
+    ],
+    [
+        "India",
+        "IN"
+    ],
+    [
+        "Indonesia",
+        "ID"
+    ],
+    [
+        "Iran",
+        " Islamic Republic of",
+        "IR"
+    ],
+    [
+        "Iraq",
+        "IQ"
+    ],
+    [
+        "Ireland",
+        "IE"
+    ],
+    [
+        "Isle of Man",
+        "IM"
+    ],
+    [
+        "Israel",
+        "IL"
+    ],
+    [
+        "Italy",
+        "IT"
+    ],
+    [
+        "Jamaica",
+        "JM"
+    ],
+    [
+        "Japan",
+        "JP"
+    ],
+    [
+        "Jersey",
+        "JE"
+    ],
+    [
+        "Jordan",
+        "JO"
+    ],
+    [
+        "Kazakhstan",
+        "KZ"
+    ],
+    [
+        "Kenya",
+        "KE"
+    ],
+    [
+        "Kiribati",
+        "KI"
+    ],
+    [
+        "Korea",
+        " Democratic People's Republic of",
+        "KP"
+    ],
+    [
+        "Korea",
+        " Republic of",
+        "KR"
+    ],
+    [
+        "Kuwait",
+        "KW"
+    ],
+    [
+        "Kyrgyzstan",
+        "KG"
+    ],
+    [
+        "Lao People's Democratic Republic",
+        "LA"
+    ],
+    [
+        "Latvia",
+        "LV"
+    ],
+    [
+        "Lebanon",
+        "LB"
+    ],
+    [
+        "Lesotho",
+        "LS"
+    ],
+    [
+        "Liberia",
+        "LR"
+    ],
+    [
+        "Libya",
+        "LY"
+    ],
+    [
+        "Liechtenstein",
+        "LI"
+    ],
+    [
+        "Lithuania",
+        "LT"
+    ],
+    [
+        "Luxembourg",
+        "LU"
+    ],
+    [
+        "Macao",
+        "MO"
+    ],
+    [
+        "Madagascar",
+        "MG"
+    ],
+    [
+        "Malawi",
+        "MW"
+    ],
+    [
+        "Malaysia",
+        "MY"
+    ],
+    [
+        "Maldives",
+        "MV"
+    ],
+    [
+        "Mali",
+        "ML"
+    ],
+    [
+        "Malta",
+        "MT"
+    ],
+    [
+        "Marshall Islands",
+        "MH"
+    ],
+    [
+        "Martinique",
+        "MQ"
+    ],
+    [
+        "Mauritania",
+        "MR"
+    ],
+    [
+        "Mauritius",
+        "MU"
+    ],
+    [
+        "Mayotte",
+        "YT"
+    ],
+    [
+        "Mexico",
+        "MX"
+    ],
+    [
+        "Micronesia",
+        " Federated States of",
+        "FM"
+    ],
+    [
+        "Moldova",
+        " Republic of",
+        "MD"
+    ],
+    [
+        "Monaco",
+        "MC"
+    ],
+    [
+        "Mongolia",
+        "MN"
+    ],
+    [
+        "Montenegro",
+        "ME"
+    ],
+    [
+        "Montserrat",
+        "MS"
+    ],
+    [
+        "Morocco",
+        "MA"
+    ],
+    [
+        "Mozambique",
+        "MZ"
+    ],
+    [
+        "Myanmar",
+        "MM"
+    ],
+    [
+        "Namibia",
+        "NA"
+    ],
+    [
+        "Nauru",
+        "NR"
+    ],
+    [
+        "Nepal",
+        "NP"
+    ],
+    [
+        "Netherlands",
+        " Kingdom of the",
+        "NL"
+    ],
+    [
+        "New Caledonia",
+        "NC"
+    ],
+    [
+        "New Zealand",
+        "NZ"
+    ],
+    [
+        "Nicaragua",
+        "NI"
+    ],
+    [
+        "Niger",
+        "NE"
+    ],
+    [
+        "Nigeria",
+        "NG"
+    ],
+    [
+        "Niue",
+        "NU"
+    ],
+    [
+        "Norfolk Island",
+        "NF"
+    ],
+    [
+        "North Macedonia",
+        "MK"
+    ],
+    [
+        "Northern Mariana Islands",
+        "MP"
+    ],
+    [
+        "Norway",
+        "NO"
+    ],
+    [
+        "Oman",
+        "OM"
+    ],
+    [
+        "Pakistan",
+        "PK"
+    ],
+    [
+        "Palau",
+        "PW"
+    ],
+    [
+        "Palestine",
+        " State of",
+        "PS"
+    ],
+    [
+        "Panama",
+        "PA"
+    ],
+    [
+        "Papua New Guinea",
+        "PG"
+    ],
+    [
+        "Paraguay",
+        "PY"
+    ],
+    [
+        "Peru",
+        "PE"
+    ],
+    [
+        "Philippines",
+        "PH"
+    ],
+    [
+        "Pitcairn",
+        "PN"
+    ],
+    [
+        "Poland",
+        "PL"
+    ],
+    [
+        "Portugal",
+        "PT"
+    ],
+    [
+        "Puerto Rico",
+        "PR"
+    ],
+    [
+        "Qatar",
+        "QA"
+    ],
+    [
+        "R\xe9union",
+        "RE"
+    ],
+    [
+        "Romania",
+        "RO"
+    ],
+    [
+        "Russian Federation",
+        "RU"
+    ],
+    [
+        "Rwanda",
+        "RW"
+    ],
+    [
+        "Saint Barth\xe9lemy",
+        "BL"
+    ],
+    [
+        "Saint Helena",
+        " Ascension and Tristan da Cunha",
+        "SH"
+    ],
+    [
+        "Saint Kitts and Nevis",
+        "KN"
+    ],
+    [
+        "Saint Lucia",
+        "LC"
+    ],
+    [
+        "Saint Martin (French part)",
+        "MF"
+    ],
+    [
+        "Saint Pierre and Miquelon",
+        "PM"
+    ],
+    [
+        "Saint Vincent and the Grenadines",
+        "VC"
+    ],
+    [
+        "Samoa",
+        "WS"
+    ],
+    [
+        "San Marino",
+        "SM"
+    ],
+    [
+        "Sao Tome and Principe",
+        "ST"
+    ],
+    [
+        "Saudi Arabia",
+        "SA"
+    ],
+    [
+        "Senegal",
+        "SN"
+    ],
+    [
+        "Serbia",
+        "RS"
+    ],
+    [
+        "Seychelles",
+        "SC"
+    ],
+    [
+        "Sierra Leone",
+        "SL"
+    ],
+    [
+        "Singapore",
+        "SG"
+    ],
+    [
+        "Sint Maarten (Dutch part)",
+        "SX"
+    ],
+    [
+        "Slovakia",
+        "SK"
+    ],
+    [
+        "Slovenia",
+        "SI"
+    ],
+    [
+        "Solomon Islands",
+        "SB"
+    ],
+    [
+        "Somalia",
+        "SO"
+    ],
+    [
+        "South Africa",
+        "ZA"
+    ],
+    [
+        "South Georgia and the South Sandwich Islands",
+        "GS"
+    ],
+    [
+        "South Sudan",
+        "SS"
+    ],
+    [
+        "Spain",
+        "ES"
+    ],
+    [
+        "Sri Lanka",
+        "LK"
+    ],
+    [
+        "Sudan",
+        "SD"
+    ],
+    [
+        "Suriname",
+        "SR"
+    ],
+    [
+        "Svalbard and Jan Mayen",
+        "SJ"
+    ],
+    [
+        "Sweden",
+        "SE"
+    ],
+    [
+        "Switzerland",
+        "CH"
+    ],
+    [
+        "Syrian Arab Republic",
+        "SY"
+    ],
+    [
+        "Taiwan",
+        " Province of China",
+        "TW"
+    ],
+    [
+        "Tajikistan",
+        "TJ"
+    ],
+    [
+        "Tanzania",
+        " United Republic of",
+        "TZ"
+    ],
+    [
+        "Thailand",
+        "TH"
+    ],
+    [
+        "Timor-Leste",
+        "TL"
+    ],
+    [
+        "Togo",
+        "TG"
+    ],
+    [
+        "Tokelau",
+        "TK"
+    ],
+    [
+        "Tonga",
+        "TO"
+    ],
+    [
+        "Trinidad and Tobago",
+        "TT"
+    ],
+    [
+        "Tunisia",
+        "TN"
+    ],
+    [
+        "T\xfcrkiye",
+        "TR"
+    ],
+    [
+        "Turkmenistan",
+        "TM"
+    ],
+    [
+        "Turks and Caicos Islands",
+        "TC"
+    ],
+    [
+        "Tuvalu",
+        "TV"
+    ],
+    [
+        "Uganda",
+        "UG"
+    ],
+    [
+        "Ukraine",
+        "UA"
+    ],
+    [
+        "United Arab Emirates",
+        "AE"
+    ],
+    [
+        "United Kingdom of Great Britain and Northern Ireland",
+        "GB"
+    ],
+    [
+        "United States of America",
+        "US"
+    ],
+    [
+        "United States Minor Outlying Islands",
+        "UM"
+    ],
+    [
+        "Uruguay",
+        "UY"
+    ],
+    [
+        "Uzbekistan",
+        "UZ"
+    ],
+    [
+        "Vanuatu",
+        "VU"
+    ],
+    [
+        "Venezuela",
+        " Bolivarian Republic of",
+        "VE"
+    ],
+    [
+        "Viet Nam",
+        "VN"
+    ],
+    [
+        "Virgin Islands (British)",
+        "VG"
+    ],
+    [
+        "Virgin Islands (U.S.)",
+        "VI"
+    ],
+    [
+        "Wallis and Futuna",
+        "WF"
+    ],
+    [
+        "Western Sahara",
+        "EH"
+    ],
+    [
+        "Yemen",
+        "YE"
+    ],
+    [
+        "Zambia",
+        "ZM"
+    ],
+    [
+        "Zimbabwe",
+        "ZW"
+    ]
+];
+function createMarkup(country_name, country_code) {
+    return `<button data-id="${country_code}" type="button" class="button__country">${country_name}</button>`;
+}
+function fillDropdown(query, container, PathOptions) {
+    container.innerHTML = '';
+    for (const countryArr of countries)if (query === '' || countryArr[0].toLowerCase().slice(0, query.length) === query.toLowerCase()) container.innerHTML += createMarkup(...countryArr);
+    container.querySelectorAll(".button__country").forEach((button)=>{
+        button.addEventListener('click', ()=>{
+            PathOptions.code = button.dataset.id;
+            document.querySelector('.input__country').value = '';
+            document.querySelector('.input__country').setAttribute('placeholder', button.textContent);
+            fillDropdown('', container, PathOptions);
+        });
+    });
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"lLLVz":[function(require,module,exports,__globalThis) {
+
+},{}],"iiT7g":[function(require,module,exports,__globalThis) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "fillCardList", ()=>fillCardList);
+function createCard(event) {
+    return `
+    <li class="event__card" data-id="${event.id}">
+        <h3 class="event__title">${event.name}</h3>
+        <img src="${event.images[event.images.length - 1].url}" alt="" class="event__image">
+        <p class="event__date">${event.dates.start.localDate}</p>
+        <p class="event__venue__location">${event._embedded.venues[0].name}</p>
+    </li>
+    `;
+}
+function fillCardList(container, eventList) {
+    container.innerHTML = '';
+    for (const event of eventList)container.innerHTML += createCard(event);
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}]},["kJIY7","2xGku"], "2xGku", "parcelRequire491a", {})
 
 //# sourceMappingURL=project_final_4.380419b9.js.map
