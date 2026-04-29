@@ -17,7 +17,7 @@ a {
 }
 
 body {
-  background-color: #0E0E0E;
+  background-color: #0e0e0e;
 }
 
 .container {
@@ -44,15 +44,25 @@ body {
   --logo-width-logo: 0px;
   width: 100vw;
   height: 364px;
-  background: linear-gradient(rgba(11, 11, 11, 0.5)), url("../images/header_bg_1x.png"), linear-gradient(to bottom, transparent, rgba(13, 13, 13, 0.19) 80%, rgba(14, 14, 14, 0.8) 100%);
-  background-position: 0 0, 50% 50%, 0 0;
+  background:
+    linear-gradient(rgba(11, 11, 11, 0.5)), url("../images/header_bg_1x.png"),
+    linear-gradient(
+      to bottom,
+      transparent,
+      rgba(13, 13, 13, 0.19) 80%,
+      rgba(14, 14, 14, 0.8) 100%
+    );
+  background-position:
+    0 0,
+    50% 50%,
+    0 0;
   background-repeat: no-repeat, no-repeat, no-repeat;
 }
 .header__title {
   margin: 0 auto;
   padding-top: 75px;
   text-align: center;
-  color: #DC56C5;
+  color: #dc56c5;
   font-family: "Montserrat";
   font-size: 18px;
   line-height: 1.22;
@@ -96,8 +106,12 @@ body {
   content: " ";
   display: block;
   position: absolute;
-  top: calc((var(--logo-width-bg) / 2 - 1.1 * var(--logo-width-logo)) / 2 * 1px);
-  left: calc((var(--logo-width-bg) / 2 - 1.1 * var(--logo-width-logo)) / 2 * 1px);
+  top: calc(
+    (var(--logo-width-bg) / 2 - 1.1 * var(--logo-width-logo)) / 2 * 1px
+  );
+  left: calc(
+    (var(--logo-width-bg) / 2 - 1.1 * var(--logo-width-logo)) / 2 * 1px
+  );
   width: calc(var(--logo-width-logo) * 1px);
   height: calc(var(--logo-width-logo) / 2 * 1px);
   background-image: url(../images/logo.svg);
@@ -159,4 +173,295 @@ body {
   .copyright__text {
     font-size: 18px;
   }
-}/*# sourceMappingURL=main.css.map */
+} /*# sourceMappingURL=main.css.map */
+
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/* */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(6px);
+  z-index: 1000;
+}
+
+
+.modal-content {
+  width: 942px;
+  height: 1023px;
+  background: #fff;
+  border-radius: 40px;
+  display: flex;
+  overflow: hidden;
+  position: relative;
+  animation: modalOpen 0.3s ease;
+}
+
+
+.modal-left {
+  width: 360px;
+  height: 641px;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.modal-left img {
+  width: 360px;
+  height: 641px;
+  object-fit: cover;
+  display: block;
+}
+
+
+.modal-circle {
+  position: absolute;
+  width: 132px;
+  height: 132px;
+  top: 40px;
+  left: 240px;
+  background: #dc56c5;
+  border-top-left-radius: 50px;
+  border-bottom-right-radius: 50px;
+  opacity: 1;
+}
+
+.modal-right {
+  flex: 1;
+  padding: 40px;
+  position: relative;
+  overflow-y: auto;
+}
+
+
+.modal-close {
+  position: absolute;
+  top: 20px;
+  right: 25px;
+  font-size: 42px;
+  line-height: 1;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #000;
+  z-index: 9999;
+}
+
+
+.modal-right h2 {
+  font-size: 32px;
+  margin-bottom: 20px;
+}
+
+
+.modal-section {
+  margin-bottom: 18px;
+}
+
+.modal-section h4 {
+  font-size: 24px;
+  color: #dc56c5;
+  margin-bottom: 5px;
+  letter-spacing: 1px;
+}
+
+
+.modal-section p {
+  font-size: 16px;
+  line-height: 1.5;
+  color: #333;
+}
+
+
+.price-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.price-item span {
+  font-size: 14px;
+}
+
+
+.price-item a {
+  padding: 10px 14px;
+  background: #000;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 12px;
+}
+
+
+.more-btn {
+  display: inline-block;
+  margin-top: 25px;
+  padding: 14px 20px;
+  background: #000;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+
+@keyframes modalOpen {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(6px);
+  z-index: 1000;
+}
+
+
+.modal-content {
+  width: 942px;
+  height: 1023px;
+  background: #fff;
+  border-radius: 40px;
+  display: flex;
+  overflow: hidden;
+  position: relative;
+  animation: modalOpen 0.3s ease;
+}
+
+
+.modal-left {
+  width: 360px;
+  height: 641px;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.modal-left img {
+  width: 360px;
+  height: 641px;
+  object-fit: cover;
+  display: block;
+}
+
+
+.modal-circle {
+  position: absolute;
+  width: 132px;
+  height: 132px;
+  top: 40px;
+  left: 240px;
+  background: #DC56C5;
+  border-top-left-radius: 50px;
+  border-bottom-right-radius: 50px;
+  opacity: 1;
+}
+
+
+.modal-right {
+  flex: 1;
+  padding: 40px;
+  position: relative;
+  overflow-y: auto;
+}
+
+
+.modal-close {
+  position: absolute;
+  top: 20px;
+  right: 25px;
+  font-size: 42px;
+  line-height: 1;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #000;
+  z-index: 9999;
+}
+
+
+.modal-right h2 {
+  font-size: 32px;
+  margin-bottom: 20px;
+}
+
+
+.modal-section {
+  margin-bottom: 18px;
+}
+
+.modal-section h4 {
+  font-size: 24px;
+  color: #DC56C5;
+  margin-bottom: 5px;
+  letter-spacing: 1px;
+}
+
+
+.modal-section p {
+  font-size: 16px;
+  line-height: 1.5;
+  color: #333;
+}
+
+.price-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.price-item span {
+  font-size: 14px;
+}
+
+.price-item a {
+  padding: 10px 14px;
+  background: #000;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 12px;
+}
+
+.more-btn {
+  display: inline-block;
+  margin-top: 25px;
+  padding: 14px 20px;
+  background: #000;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+
+@keyframes modalOpen {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
