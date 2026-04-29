@@ -1,0 +1,23 @@
+.dropdown {
+    position: relative;
+}
+
+.dropdown:hover .dropdown__content {
+    display: block;
+}
+
+.dropdown__content {
+    display: none;
+    position: absolute;
+    top: 100%;
+}
+
+.button__country {
+    display: inline;
+    width: 100%;
+    height: 40px;
+    border: none;
+    border-bottom: solid #4b4b4b 1px;
+    background-color: #404040;
+    color:#c0c0c0;
+}
