@@ -16,6 +16,12 @@ body {
   background-color: #0e0e0e;
 }
 
+.dataDiv {
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+
 .container {
   width: 87.5%;
 }
@@ -180,6 +186,13 @@ body {
 
 .event__card {
   color: #fff;
+}
+
+.event__card__list > span {
+  color: #fff;
+  text-align: center;
+  margin: 20px auto;
+  display: block;
 }
 
 @keyframes modalOpen {

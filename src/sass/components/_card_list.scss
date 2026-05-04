@@ -1,1 +1,8 @@
 // для всього списка карточок
+
+.event__card__list > span {
+    display: block;
+    color: white;
+    text-align: center;
+    margin: 20px auto;
+}

@@ -721,6 +721,7 @@ var _cardJs = require("./card.js");
 var _modalJs = require("./modal/modal.js");
 const dropdownDiv = document.querySelector('.dropdown__content');
 const eventCardList = document.querySelector('.event__card__list');
+const inputQuery = document.querySelector('.input__query');
 const inputCountry = document.querySelector('.input__country');
 let PathOptions = {
     code: -1,
@@ -728,10 +729,25 @@ let PathOptions = {
     page: 0
 };
 (0, _dropdownJs.fillDropdown)('', dropdownDiv, PathOptions);
-(0, _apiJs.getEvents)(PathOptions).then((data)=>(0, _cardJs.fillCardList)(eventCardList, (0, _apiJs.getEventData)(data)));
+function fillEvents() {
+    (0, _apiJs.getEvents)(PathOptions).then((data)=>(0, _cardJs.fillCardList)(eventCardList, (0, _apiJs.getEventData)(data)));
+}
+fillEvents();
 inputCountry.addEventListener('keyup', ()=>{
-    console.log(inputCountry.value);
     (0, _dropdownJs.fillDropdown)(inputCountry.value, dropdownDiv, PathOptions);
+});
+inputQuery.addEventListener('keyup', ()=>{
+    PathOptions.query = inputQuery.value;
+    fillEvents();
+});
+addEventListener('keydown', (ev)=>{
+    if (ev.key === 'q') console.log('PathOptions:', PathOptions);
+});
+addEventListener('click', ()=>{
+    if (document.querySelector('.dataDiv').dataset.searchFlag === 'yes') {
+        document.querySelector('.dataDiv').dataset.searchFlag = 'no';
+        fillEvents();
+    }
 });
 
 },{"./logo.js":"2GRI6","./api.js":"4yEOZ","./dropdown.js":"2nhSG","./modal/modal.js":"lLLVz","./card.js":"iiT7g"}],"2GRI6":[function(require,module,exports,__globalThis) {
@@ -780,7 +796,8 @@ parcelHelpers.export(exports, "getEvents", ()=>getEvents);
 const MAIN_URL = 'https://app.ticketmaster.com/discovery/v2/events.json?';
 const API_KEY = 'apikey=5P2eENX3jSAJ1avlQtGveA6HpNKohevi';
 function getEventData(data) {
-    return data._embedded.events;
+    if (data._embedded) return data._embedded.events;
+    return [];
 }
 async function getEvents(queryOptions) {
     try {
@@ -936,13 +953,11 @@ const countries = [
         "BT"
     ],
     [
-        "Bolivia",
-        " Plurinational State of",
+        "Bolivia, Plurinational State of",
         "BO"
     ],
     [
-        "Bonaire",
-        " Sint Eustatius and Saba",
+        "Bonaire, Sint Eustatius and Saba",
         "BQ"
     ],
     [
@@ -1038,8 +1053,7 @@ const countries = [
         "CG"
     ],
     [
-        "Congo",
-        " Democratic Republic of the",
+        "Congo, Democratic Republic of the",
         "CD"
     ],
     [
@@ -1308,8 +1322,7 @@ const countries = [
         "KI"
     ],
     [
-        "Korea",
-        " Democratic People's Republic of",
+        "Korea, Democratic People's Republic of",
         "KP"
     ],
     [
@@ -1414,8 +1427,7 @@ const countries = [
         "MX"
     ],
     [
-        "Micronesia",
-        " Federated States of",
+        "Micronesia, Federated States of",
         "FM"
     ],
     [
@@ -1464,8 +1476,7 @@ const countries = [
         "NP"
     ],
     [
-        "Netherlands",
-        " Kingdom of the",
+        "Netherlands, Kingdom of the",
         "NL"
     ],
     [
@@ -1851,6 +1862,7 @@ function fillDropdown(query, container, PathOptions) {
     container.querySelectorAll(".button__country").forEach((button)=>{
         button.addEventListener('click', ()=>{
             PathOptions.code = button.dataset.id;
+            document.querySelector('.dataDiv').dataset.searchFlag = 'yes';
             document.querySelector('.input__country').value = '';
             document.querySelector('.input__country').setAttribute('placeholder', button.textContent);
             fillDropdown('', container, PathOptions);
@@ -1868,8 +1880,8 @@ const modalLink = document.getElementById("modal-link");
 const closeBtn = document.querySelector(".modal-close");
 const modalWho = document.getElementById("modal-who");
 const modalWhere = document.getElementById("modal-where");
-document.querySelector(".card__list").addEventListener("click", (e)=>{
-    const card = e.target.closest(".event-card");
+document.querySelector(".event__card__list").addEventListener("click", (e)=>{
+    const card = e.target.closest(".event__card");
     if (!card) return;
     modalImage.src = card.dataset.image;
     modalTitle.textContent = card.dataset.title;
@@ -1904,6 +1916,7 @@ function createCard(event) {
 function fillCardList(container, eventList) {
     container.innerHTML = '';
     for (const event of eventList)container.innerHTML += createCard(event);
+    if (eventList.length === 0) container.innerHTML += '<span>No events found</span>';
 }
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}]},["kJIY7","2xGku"], "2xGku", "parcelRequire491a", {})

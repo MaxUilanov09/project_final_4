@@ -16,4 +16,7 @@ export function fillCardList(container, eventList) {
     for (const event of eventList) {
         container.innerHTML += createCard(event);
     }
+    if (eventList.length === 0) {
+        container.innerHTML += '<span>No events found</span>';
+    }
 }

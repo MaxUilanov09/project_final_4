@@ -7,6 +7,7 @@ import {} from './modal/modal.js';
 
 const dropdownDiv = document.querySelector('.dropdown__content');
 const eventCardList = document.querySelector('.event__card__list');
+const inputQuery = document.querySelector('.input__query');
 const inputCountry = document.querySelector('.input__country');
 
 
@@ -18,10 +19,31 @@ let PathOptions = {
 
 fillDropdown('', dropdownDiv, PathOptions);
 
-getEvents(PathOptions)
-    .then(data => fillCardList(eventCardList, getEventData(data)));
+function fillEvents() {
+    getEvents(PathOptions)
+        .then(data => fillCardList(eventCardList, getEventData(data)));
+}
+
+fillEvents();
 
 inputCountry.addEventListener('keyup', () => {
-    console.log(inputCountry.value);
     fillDropdown(inputCountry.value, dropdownDiv, PathOptions);
+})
+
+inputQuery.addEventListener('keyup', () => {
+    PathOptions.query = inputQuery.value;
+    fillEvents();
+})
+
+addEventListener('keydown', (ev) => {
+    if (ev.key === 'q') {
+        console.log('PathOptions:', PathOptions);
+    }
+})
+
+addEventListener('click', () => {
+    if (document.querySelector('.dataDiv').dataset.searchFlag === 'yes') {
+        document.querySelector('.dataDiv').dataset.searchFlag = 'no'
+        fillEvents();
+    }
 })

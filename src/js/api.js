@@ -3,7 +3,10 @@ const API_KEY = 'apikey=5P2eENX3jSAJ1avlQtGveA6HpNKohevi'
 
 
 export function getEventData(data) {
-    return data._embedded.events;
+    if (data._embedded) {
+        return data._embedded.events;
+    }
+    return [];
 }
 
 export async function getEvents(queryOptions) {

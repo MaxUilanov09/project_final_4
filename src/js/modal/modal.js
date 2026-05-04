@@ -14,8 +14,8 @@ const closeBtn = document.querySelector(".modal-close");
 const modalWho = document.getElementById("modal-who");
 const modalWhere = document.getElementById("modal-where");
 
-document.querySelector(".card__list").addEventListener("click", (e) => {
-  const card = e.target.closest(".event-card");
+document.querySelector(".event__card__list").addEventListener("click", (e) => {
+  const card = e.target.closest(".event__card");
   if (!card) return;
 
   

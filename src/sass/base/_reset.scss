@@ -21,3 +21,9 @@ a {
 body {
     background-color: variables.$body-bg-color;
 }
+
+.dataDiv {
+    position: absolute;
+    width: 0px;
+    height: 0px;
+}

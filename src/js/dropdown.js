@@ -25,8 +25,8 @@ const countries = [
     ["Benin","BJ"],
     ["Bermuda","BM"],
     ["Bhutan","BT"],
-    ["Bolivia"," Plurinational State of","BO"],
-    ["Bonaire"," Sint Eustatius and Saba","BQ"],
+    ["Bolivia, Plurinational State of","BO"],
+    ["Bonaire, Sint Eustatius and Saba","BQ"],
     ["Bosnia and Herzegovina","BA"],
     ["Botswana","BW"],
     ["Bouvet Island","BV"],
@@ -50,7 +50,7 @@ const countries = [
     ["Colombia","CO"],
     ["Comoros","KM"],
     ["Congo","CG"],
-    ["Congo"," Democratic Republic of the","CD"],
+    ["Congo, Democratic Republic of the","CD"],
     ["Cook Islands","CK"],
     ["Costa Rica","CR"],
     ["Côte d'Ivoire","CI"],
@@ -117,7 +117,7 @@ const countries = [
     ["Kazakhstan","KZ"],
     ["Kenya","KE"],
     ["Kiribati","KI"],
-    ["Korea"," Democratic People's Republic of","KP"],
+    ["Korea, Democratic People's Republic of","KP"],
     ["Korea"," Republic of","KR"],
     ["Kuwait","KW"],
     ["Kyrgyzstan","KG"],
@@ -143,7 +143,7 @@ const countries = [
     ["Mauritius","MU"],
     ["Mayotte","YT"],
     ["Mexico","MX"],
-    ["Micronesia"," Federated States of","FM"],
+    ["Micronesia, Federated States of","FM"],
     ["Moldova"," Republic of","MD"],
     ["Monaco","MC"],
     ["Mongolia","MN"],
@@ -155,7 +155,7 @@ const countries = [
     ["Namibia","NA"],
     ["Nauru","NR"],
     ["Nepal","NP"],
-    ["Netherlands"," Kingdom of the","NL"],
+    ["Netherlands, Kingdom of the","NL"],
     ["New Caledonia","NC"],
     ["New Zealand","NZ"],
     ["Nicaragua","NI"],
@@ -264,6 +264,7 @@ export function fillDropdown(query, container, PathOptions) {
     container.querySelectorAll(".button__country").forEach(button => {
         button.addEventListener('click', () => {
             PathOptions.code = button.dataset.id;
+            document.querySelector('.dataDiv').dataset.searchFlag = 'yes';
             document.querySelector('.input__country').value = '';
             document.querySelector('.input__country').setAttribute('placeholder', button.textContent);
             fillDropdown('', container, PathOptions);
