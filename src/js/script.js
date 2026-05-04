@@ -12,9 +12,10 @@ const inputCountry = document.querySelector('.input__country');
 
 
 let PathOptions = {
-    code: -1, 
-    query: '', 
-    page: 0
+    code: 0, 
+    query: 0, 
+    page: 0,
+    id: 0
 };
 
 fillDropdown('', dropdownDiv, PathOptions);

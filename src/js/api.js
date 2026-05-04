@@ -12,14 +12,17 @@ export function getEventData(data) {
 export async function getEvents(queryOptions) {
     try {
         let path = '';
-        if (queryOptions.code !== -1) {
+        if (queryOptions.code) {
             path += `&countryCode=${queryOptions.code}`;
         }
-        if (queryOptions.query !== '') {
+        if (queryOptions.query) {
             path += `&keyword=${queryOptions.query}`;
         }
-        if (queryOptions.page !== 0) {
+        if (queryOptions.page) {
             path += `&page=${queryOptions.page}`;
+        }
+        if (queryOptions.id) {
+            path += `&id=${queryOptions.id}`;
         }
         const res = await fetch(MAIN_URL + API_KEY + path);
         const data = await res.json();

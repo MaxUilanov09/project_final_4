@@ -724,9 +724,10 @@ const eventCardList = document.querySelector('.event__card__list');
 const inputQuery = document.querySelector('.input__query');
 const inputCountry = document.querySelector('.input__country');
 let PathOptions = {
-    code: -1,
-    query: '',
-    page: 0
+    code: 0,
+    query: 0,
+    page: 0,
+    id: 0
 };
 (0, _dropdownJs.fillDropdown)('', dropdownDiv, PathOptions);
 function fillEvents() {
@@ -802,9 +803,10 @@ function getEventData(data) {
 async function getEvents(queryOptions) {
     try {
         let path = '';
-        if (queryOptions.code !== -1) path += `&countryCode=${queryOptions.code}`;
-        if (queryOptions.query !== '') path += `&keyword=${queryOptions.query}`;
-        if (queryOptions.page !== 0) path += `&page=${queryOptions.page}`;
+        if (queryOptions.code) path += `&countryCode=${queryOptions.code}`;
+        if (queryOptions.query) path += `&keyword=${queryOptions.query}`;
+        if (queryOptions.page) path += `&page=${queryOptions.page}`;
+        if (queryOptions.id) path += `&id=${queryOptions.id}`;
         const res = await fetch(MAIN_URL + API_KEY + path);
         const data = await res.json();
         return data;
@@ -1871,6 +1873,7 @@ function fillDropdown(query, container, PathOptions) {
 }
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"lLLVz":[function(require,module,exports,__globalThis) {
+var _apiJs = require("../api.js");
 const modal = document.getElementById("modal");
 const modalImage = document.getElementById("modal-image");
 const modalTitle = document.getElementById("modal-title");
@@ -1880,9 +1883,9 @@ const modalLink = document.getElementById("modal-link");
 const closeBtn = document.querySelector(".modal-close");
 const modalWho = document.getElementById("modal-who");
 const modalWhere = document.getElementById("modal-where");
-document.querySelector(".event__card__list").addEventListener("click", (e)=>{
-    const card = e.target.closest(".event__card");
-    if (!card) return;
+function fillModal(data) {
+    // і поміняти image,title,description,date... на правильні
+    // щоб дізнатися правильні запусти і подивися на обʼєкт у консолі
     modalImage.src = card.dataset.image;
     modalTitle.textContent = card.dataset.title;
     modalDescription.textContent = card.dataset.description;
@@ -1891,6 +1894,16 @@ document.querySelector(".event__card__list").addEventListener("click", (e)=>{
     modalWhere.textContent = card.dataset.where || "Unknown location";
     modalLink.href = card.dataset.link;
     modal.style.display = "flex";
+}
+document.querySelector(".event__card__list").addEventListener("click", (e)=>{
+    const card1 = e.target.closest(".event__card");
+    if (!card1) return;
+    (0, _apiJs.getEvents)({
+        id: card1.dataset.id
+    }).then((data)=>{
+        console.log((0, _apiJs.getEventData)(data)[0]);
+        return data;
+    }).then((data)=>fillModal(data));
 });
 closeBtn.addEventListener("click", ()=>{
     modal.style.display = "none";
@@ -1899,7 +1912,7 @@ modal.addEventListener("click", (e)=>{
     if (e.target === modal) modal.style.display = "none";
 });
 
-},{}],"iiT7g":[function(require,module,exports,__globalThis) {
+},{"../api.js":"4yEOZ"}],"iiT7g":[function(require,module,exports,__globalThis) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "fillCardList", ()=>fillCardList);

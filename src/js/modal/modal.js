@@ -1,3 +1,5 @@
+import { getEvents, getEventData } from '../api.js';
+
 const modal = document.getElementById("modal");
 
 const modalImage = document.getElementById("modal-image");
@@ -14,11 +16,9 @@ const closeBtn = document.querySelector(".modal-close");
 const modalWho = document.getElementById("modal-who");
 const modalWhere = document.getElementById("modal-where");
 
-document.querySelector(".event__card__list").addEventListener("click", (e) => {
-  const card = e.target.closest(".event__card");
-  if (!card) return;
-
-  
+function fillModal(data) { // замінити:      card.dataset.  ---->.  data.
+    // і поміняти image,title,description,date... на правильні
+    // щоб дізнатися правильні запусти і подивися на обʼєкт у консолі
   modalImage.src = card.dataset.image;
   modalTitle.textContent = card.dataset.title;
 
@@ -38,6 +38,15 @@ document.querySelector(".event__card__list").addEventListener("click", (e) => {
   modalLink.href = card.dataset.link;
 
   modal.style.display = "flex";
+}
+
+document.querySelector(".event__card__list").addEventListener("click", (e) => {
+  const card = e.target.closest(".event__card");
+  if (!card) return;
+
+  getEvents({id: card.dataset.id})
+    .then(data => {console.log(getEventData(data)[0]); return data;})
+    .then(data => fillModal(data));
 });
 
 
