@@ -718,11 +718,13 @@ var _logoJs = require("./logo.js");
 var _apiJs = require("./api.js");
 var _dropdownJs = require("./dropdown.js");
 var _cardJs = require("./card.js");
+var _paginationJs = require("./pagination.js");
 var _modalJs = require("./modal/modal.js");
 const dropdownDiv = document.querySelector('.dropdown__content');
 const eventCardList = document.querySelector('.event__card__list');
 const inputQuery = document.querySelector('.input__query');
 const inputCountry = document.querySelector('.input__country');
+const pagContainer = document.querySelector('.pagination__pages');
 let PathOptions = {
     code: 0,
     query: 0,
@@ -731,7 +733,10 @@ let PathOptions = {
 };
 (0, _dropdownJs.fillDropdown)('', dropdownDiv, PathOptions);
 function fillEvents() {
-    (0, _apiJs.getEvents)(PathOptions).then((data)=>(0, _cardJs.fillCardList)(eventCardList, (0, _apiJs.getEventData)(data)));
+    (0, _apiJs.getEvents)(PathOptions).then((data)=>{
+        (0, _cardJs.fillCardList)(eventCardList, (0, _apiJs.getEventData)(data));
+        (0, _paginationJs.fillPag)(pagContainer, PathOptions.page, data.page.totalPages);
+    });
 }
 fillEvents();
 inputCountry.addEventListener('keyup', ()=>{
@@ -751,7 +756,7 @@ addEventListener('click', ()=>{
     }
 });
 
-},{"./logo.js":"2GRI6","./api.js":"4yEOZ","./dropdown.js":"2nhSG","./modal/modal.js":"lLLVz","./card.js":"iiT7g"}],"2GRI6":[function(require,module,exports,__globalThis) {
+},{"./logo.js":"2GRI6","./api.js":"4yEOZ","./dropdown.js":"2nhSG","./modal/modal.js":"lLLVz","./card.js":"iiT7g","./pagination.js":"80yTG"}],"2GRI6":[function(require,module,exports,__globalThis) {
 const headerStyle = document.querySelector('.header').style;
 const headerTitleStyle = document.querySelector('.header__title').style;
 const bg_coeff_linear = 0.13565;
@@ -809,6 +814,7 @@ async function getEvents(queryOptions) {
         if (queryOptions.id) path += `&id=${queryOptions.id}`;
         const res = await fetch(MAIN_URL + API_KEY + path);
         const data = await res.json();
+        console.log(data);
         return data;
     } catch (error) {
         console.log(error);
@@ -1934,6 +1940,31 @@ eventCardListStyle.setProperty('--col-num', getCardColNum());
 addEventListener('resize', ()=>{
     eventCardListStyle.setProperty('--col-num', getCardColNum());
 });
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"80yTG":[function(require,module,exports,__globalThis) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+// const pagContainer = document.querySelector('.pagination__pages');
+parcelHelpers.export(exports, "fillPag", ()=>fillPag);
+const createPagItem = (pageNum)=>`<div class="pagination__item"><p class="pagination__text">${pageNum}</p></div>`;
+function fillPag(container, currentPage, totalPages) {
+    let leftNum = currentPage;
+    let rightNum = totalPages - currentPage;
+    let arr = currentPage > 5 ? [
+        '1',
+        leftNum > 6 ? '...' : '2',
+        (currentPage - 1).toString(),
+        currentPage.toString(),
+        (currentPage + 1).toString(),
+        rightNum > 6 ? '...' : (totalPages - 1).toString(),
+        totalPages.toString()
+    ] : Array(Math.min(5, totalPages)).fill(0).map((_, idx)=>idx).concat(totalPages > 7 ? [
+        '...',
+        totalPages.toString()
+    ] : Array(totalPages - 5).fill(0).map((_, idx)=>idx + 5));
+    // console.log(arr);
+    for (const element of arr)container.innerHTML += createPagItem(element);
+}
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}]},["kJIY7","2xGku"], "2xGku", "parcelRequire491a", {})
 
