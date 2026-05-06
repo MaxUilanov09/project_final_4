@@ -54,9 +54,18 @@ addEventListener('keydown', (ev) => {
 
 addEventListener('click', () => {
     if (document.querySelector('.dataDiv').dataset.searchFlag === 'yes') {
-        document.querySelector('.dataDiv').dataset.searchFlag = 'no'
+        document.querySelector('.dataDiv').dataset.searchFlag = 'no';
         fillEvents();
     }
 })
 
-
+addEventListener('keydown', (ev) => {
+    if (ev.key === 'ArrowLeft') {
+        PathOptions.page--;
+        fillEvents();
+    }
+    if (ev.key === 'ArrowRight') {
+        PathOptions.page++;
+        fillEvents();
+    }
+})

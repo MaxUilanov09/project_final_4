@@ -760,6 +760,16 @@ addEventListener('click', ()=>{
         fillEvents();
     }
 });
+addEventListener('keydown', (ev)=>{
+    if (ev.key === 'ArrowLeft') {
+        PathOptions.page--;
+        fillEvents();
+    }
+    if (ev.key === 'ArrowRight') {
+        PathOptions.page++;
+        fillEvents();
+    }
+});
 
 },{"./logo.js":"2GRI6","./api.js":"4yEOZ","./dropdown.js":"2nhSG","./modal/modal.js":"lLLVz","./card.js":"iiT7g","./pagination.js":"80yTG"}],"2GRI6":[function(require,module,exports,__globalThis) {
 const headerStyle = document.querySelector('.header').style;
