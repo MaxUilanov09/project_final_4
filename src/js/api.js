@@ -26,7 +26,6 @@ export async function getEvents(queryOptions) {
         }
         const res = await fetch(MAIN_URL + API_KEY + path);
         const data = await res.json();
-        console.log(data);
         return data;
     } catch (error) {
         console.log(error);

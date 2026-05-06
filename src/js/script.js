@@ -26,7 +26,7 @@ function fillEvents() {
     getEvents(PathOptions)
         .then(data => {
             fillCardList(eventCardList, getEventData(data))
-            fillPag(pagContainer, PathOptions.page, data.page.totalPages)
+            fillPag(pagContainer, PathOptions.page, data.page.totalPages, PathOptions)
         });
 }
 
@@ -44,6 +44,11 @@ inputQuery.addEventListener('keyup', () => {
 addEventListener('keydown', (ev) => {
     if (ev.key === 'q') {
         console.log('PathOptions:', PathOptions);
+    }
+    if (ev.key === 'z') {
+        let a = Number(prompt('current page:'));
+        let b = Number(prompt('total number of pages:'));
+        fillPag(pagContainer, a, b, PathOptions)
     }
 })
 
