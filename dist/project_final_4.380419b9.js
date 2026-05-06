@@ -1271,8 +1271,7 @@ const countries = [
         "ID"
     ],
     [
-        "Iran",
-        " Islamic Republic of",
+        "Iran, Islamic Republic of",
         "IR"
     ],
     [
@@ -1328,8 +1327,7 @@ const countries = [
         "KP"
     ],
     [
-        "Korea",
-        " Republic of",
+        "Korea, Republic of",
         "KR"
     ],
     [
@@ -1433,8 +1431,7 @@ const countries = [
         "FM"
     ],
     [
-        "Moldova",
-        " Republic of",
+        "Moldova, Republic of",
         "MD"
     ],
     [
@@ -1534,8 +1531,7 @@ const countries = [
         "PW"
     ],
     [
-        "Palestine",
-        " State of",
+        "Palestine, State of",
         "PS"
     ],
     [
@@ -1599,8 +1595,7 @@ const countries = [
         "BL"
     ],
     [
-        "Saint Helena",
-        " Ascension and Tristan da Cunha",
+        "Saint Helena, Ascension and Tristan da Cunha",
         "SH"
     ],
     [
@@ -1724,8 +1719,7 @@ const countries = [
         "SY"
     ],
     [
-        "Taiwan",
-        " Province of China",
+        "Taiwan, Province of China",
         "TW"
     ],
     [
@@ -1733,8 +1727,7 @@ const countries = [
         "TJ"
     ],
     [
-        "Tanzania",
-        " United Republic of",
+        "Tanzania, United Republic of",
         "TZ"
     ],
     [
@@ -1818,8 +1811,7 @@ const countries = [
         "VU"
     ],
     [
-        "Venezuela",
-        " Bolivarian Republic of",
+        "Venezuela, Bolivarian Republic of",
         "VE"
     ],
     [
@@ -1919,8 +1911,8 @@ parcelHelpers.export(exports, "fillCardList", ()=>fillCardList);
 function createCard(event) {
     return `
     <li class="event__card" data-id="${event.id}">
-        <h3 class="event__title">${event.name}</h3>
         <img src="${event.images[event.images.length - 1].url}" alt="" class="event__image">
+        <h3 class="event__title">${event.name}</h3>
         <p class="event__date">${event.dates.start.localDate}</p>
         <p class="event__venue__location">${event._embedded.venues[0].name}</p>
     </li>
@@ -1931,6 +1923,17 @@ function fillCardList(container, eventList) {
     for (const event of eventList)container.innerHTML += createCard(event);
     if (eventList.length === 0) container.innerHTML += '<span>No events found</span>';
 }
+const eventCardListStyle = document.querySelector('.event__card__list').style;
+const list_linear_coeff = 0.00227248;
+const list_constant_coeff = 1.16686;
+function getCardColNum() {
+    const windowWidth = window.innerWidth;
+    return Math.floor(list_linear_coeff * windowWidth + list_constant_coeff);
+}
+eventCardListStyle.setProperty('--col-num', getCardColNum());
+addEventListener('resize', ()=>{
+    eventCardListStyle.setProperty('--col-num', getCardColNum());
+});
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}]},["kJIY7","2xGku"], "2xGku", "parcelRequire491a", {})
 

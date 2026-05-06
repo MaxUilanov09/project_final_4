@@ -198,10 +198,6 @@ body {
     font-size: 18px;
   }
 }
-.event__card {
-  color: white;
-}
-
 .event__card__list > span {
   display: block;
   color: white;
@@ -209,6 +205,62 @@ body {
   margin: 20px auto;
 }
 
+.event__card__list {
+  --col-num: 1;
+  width: 80%;
+  margin: 10px 10%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.event__card {
+  color: white;
+  width: calc(98% / var(--col-num));
+  text-align: center;
+}
+
+.event__image {
+  width: 100%;
+}
+
+.event__title {
+  color: #DC56C5;
+  font-family: "Montserrat";
+  font-size: 16px;
+  line-height: 1.25;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+.event__date {
+  color: #FFFFFF;
+  font-family: "Montserrat";
+  font-size: 16px;
+  line-height: 1.25;
+  font-weight: 400;
+  margin-bottom: 5px;
+}
+
+.event__venue__location {
+  color: #FFFFFF;
+  font-family: "Montserrat";
+  font-size: 14px;
+  line-height: 1.22;
+  font-weight: 600;
+}
+
+@media (max-width: 400px) {
+  .event__title {
+    font-size: 14px;
+  }
+  .event__date {
+    font-size: 14px;
+  }
+  .event__venue__location {
+    font-size: 12px;
+  }
+}
 .modal-overlay {
   position: fixed;
   inset: 0;

@@ -1,8 +1,59 @@
-// для всього списка карточок
+@use '../utils/variables';
+@use '../utils/mixins';
 
 .event__card__list > span {
     display: block;
     color: white;
     text-align: center;
     margin: 20px auto;
+}
+
+.event__card__list {
+    --col-num: 1;
+    width: 80%;
+    margin: 10px 10%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+.event__card {
+    color: white;
+    width: calc(98% / var(--col-num));
+    text-align: center;
+}
+
+.event__image {
+    width: 100%;
+}
+
+.event__title {
+    color: variables.$header-title-text-color;
+    @include mixins.text(16px, 1.25, 700);
+    margin-bottom: 5px;
+}
+
+.event__date {
+    color: variables.$card-text-color;
+    @include mixins.text(16px, 1.25, 400);
+    margin-bottom: 5px;
+}
+
+.event__venue__location {
+    color: variables.$card-text-color;
+    @include mixins.text(14px, 1.22, 600);
+}
+
+@media (max-width: 400px) {
+    .event__title {
+        font-size: 14px;
+    }
+
+    .event__date {
+        font-size: 14px;
+    }
+
+    .event__venue__location {
+        font-size: 12px;
+    }
 }
