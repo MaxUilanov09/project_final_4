@@ -4,6 +4,7 @@ import { getEvents, getEventData } from './api.js';
 import { fillDropdown } from './dropdown.js';
 import { fillCardList } from './card.js';
 import { fillPag } from './pagination.js';
+import { animateAll } from './animation.js';
 import {} from './modal/modal.js';
 
 const dropdownDiv = document.querySelector('.dropdown__content');
@@ -23,11 +24,16 @@ let PathOptions = {
 fillDropdown('', dropdownDiv, PathOptions);
 
 function fillEvents() {
-    getEvents(PathOptions)
-        .then(data => {
-            fillCardList(eventCardList, getEventData(data))
-            fillPag(pagContainer, PathOptions.page, data.page.totalPages, PathOptions)
-        });
+    let totalDelay = animateAll(eventCardList, {delay: 250, bunch: Number(eventCardList.style.getPropertyValue('--col-num')), reverse: false});
+    // window.scroll({top: 0, behavior: 'smooth'});
+    setTimeout(() => {
+        getEvents(PathOptions)
+            .then(data => {
+                fillCardList(eventCardList, getEventData(data));
+                animateAll(eventCardList, {delay: 250, bunch: Number(eventCardList.style.getPropertyValue('--col-num')), reverse: true});
+                fillPag(pagContainer, PathOptions.page, data.page.totalPages, PathOptions);
+            });
+    }, totalDelay);
 }
 
 fillEvents();
@@ -40,6 +46,8 @@ inputQuery.addEventListener('keyup', () => {
     PathOptions.query = inputQuery.value;
     fillEvents();
 })
+
+let arrWH = []
 
 addEventListener('keydown', (ev) => {
     if (ev.key === 'q') {
