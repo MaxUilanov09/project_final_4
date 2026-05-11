@@ -15,18 +15,31 @@
   <body>
     <div class="dataDiv" data-searchFlag="no"></div>
     <header class="header">
-        <h1 class="header__title">FIND BEST EVENTS AROUND THE WORLD</h1>
-        <div class="header__inputs">
-            <div class="header__input__wrap">
-                <input type="text" class="input__query" data-query="" placeholder="Start searching">
-                <img class="input__icon__search" src="./src/images/search_icon.svg">
-            </div>
-            <div class="header__input__wrap dropdown">
-                <input type="text" class="input__country" data-code="-1" placeholder="Choose country">
-                <img class="input__icon__dropdown" src="./src/images/dropdown_icon.svg">
-                <div class="dropdown__content"></div>
-            </div>
+      <h1 class="header__title">FIND BEST EVENTS AROUND THE WORLD</h1>
+      <div class="header__inputs">
+        <div class="header__input__wrap">
+          <input
+            type="text"
+            class="input__query"
+            data-query=""
+            placeholder="Start searching"
+          />
+          <img class="input__icon__search" src="./src/images/search_icon.svg" />
         </div>
+        <div class="header__input__wrap dropdown">
+          <input
+            type="text"
+            class="input__country"
+            data-code="-1"
+            placeholder="Choose country"
+          />
+          <img
+            class="input__icon__dropdown"
+            src="./src/images/dropdown_icon.svg"
+          />
+          <div class="dropdown__content"></div>
+        </div>
+      </div>
     </header>
     <main class="main">
       <ul class="event__card__list"></ul>
