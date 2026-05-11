@@ -10,6 +10,7 @@
     margin: 0 auto;
     height: 30px;
     justify-content: center;
+    margin-bottom: 35px;
 }
 
 .pagination__item {
@@ -17,21 +18,38 @@
     height: 30px;
     color: white;
     text-align: center;
+    line-height: 30px;
+    @include mixins.text(14px, 30/14, 400);
 }
 
-.pagination__text {
-    margin: auto;
+.pagination_accent {
+    border: 1px cyan solid;
+    border-radius: 5px;
+}
+
+.pagination__input {
+    width: 30px;
+    height: 30px;
+    border: none;
+    background-color: transparent;
+    color: white;
+    text-align: center;
+    @include mixins.text(14px, 30/14, 400);
 }
 
 .copyright__text {
     text-align: center;
     margin: 0 auto;
     color: variables.$header-input-text-color;
-    @include mixins.text(16px, 1.22, 400);
+    @include mixins.text(16px, 30/14, 400);
 }
 
 @media (min-width: 768px) {
     .copyright__text {
         font-size: 18px;
+    }
+
+    .pagination__item, .pagination__input {
+        font-size: 16px;
     }
 }

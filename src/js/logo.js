@@ -43,4 +43,3 @@ addEventListener('resize', () => {
     headerTitleStyle.setProperty('width', Math.floor(getHeightTitle()  * title_lineHeight * 2 * title_width_to_height_ratio) + 'px');
 });
 
-console.log('logo created');

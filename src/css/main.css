@@ -192,6 +192,7 @@ body {
   margin: 0 auto;
   height: 30px;
   justify-content: center;
+  margin-bottom: 35px;
 }
 
 .pagination__item {
@@ -199,10 +200,29 @@ body {
   height: 30px;
   color: white;
   text-align: center;
+  line-height: 30px;
+  font-family: "Montserrat";
+  font-size: 14px;
+  line-height: 2.1428571429;
+  font-weight: 400;
 }
 
-.pagination__text {
-  margin: auto;
+.pagination_accent {
+  border: 1px cyan solid;
+  border-radius: 5px;
+}
+
+.pagination__input {
+  width: 30px;
+  height: 30px;
+  border: none;
+  background-color: transparent;
+  color: white;
+  text-align: center;
+  font-family: "Montserrat";
+  font-size: 14px;
+  line-height: 2.1428571429;
+  font-weight: 400;
 }
 
 .copyright__text {
@@ -211,13 +231,16 @@ body {
   color: #999999;
   font-family: "Montserrat";
   font-size: 16px;
-  line-height: 1.22;
+  line-height: 2.1428571429;
   font-weight: 400;
 }
 
 @media (min-width: 768px) {
   .copyright__text {
     font-size: 18px;
+  }
+  .pagination__item, .pagination__input {
+    font-size: 16px;
   }
 }
 .event__card__list > span {

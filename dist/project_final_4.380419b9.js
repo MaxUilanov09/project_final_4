@@ -735,7 +735,7 @@ let PathOptions = {
 function fillEvents() {
     (0, _apiJs.getEvents)(PathOptions).then((data)=>{
         (0, _cardJs.fillCardList)(eventCardList, (0, _apiJs.getEventData)(data));
-        (0, _paginationJs.fillPag)(pagContainer, PathOptions.page, data.page.totalPages);
+        (0, _paginationJs.fillPag)(pagContainer, PathOptions.page, data.page.totalPages, PathOptions);
     });
 }
 fillEvents();
@@ -748,10 +748,25 @@ inputQuery.addEventListener('keyup', ()=>{
 });
 addEventListener('keydown', (ev)=>{
     if (ev.key === 'q') console.log('PathOptions:', PathOptions);
+    if (ev.key === 'z') {
+        let a = Number(prompt('current page:'));
+        let b = Number(prompt('total number of pages:'));
+        (0, _paginationJs.fillPag)(pagContainer, a, b, PathOptions);
+    }
 });
 addEventListener('click', ()=>{
     if (document.querySelector('.dataDiv').dataset.searchFlag === 'yes') {
         document.querySelector('.dataDiv').dataset.searchFlag = 'no';
+        fillEvents();
+    }
+});
+addEventListener('keydown', (ev)=>{
+    if (ev.key === 'ArrowLeft') {
+        PathOptions.page--;
+        fillEvents();
+    }
+    if (ev.key === 'ArrowRight') {
+        PathOptions.page++;
         fillEvents();
     }
 });
@@ -792,7 +807,6 @@ addEventListener('resize', ()=>{
     headerTitleStyle.setProperty('font-size', Math.floor(getHeightTitle()) + 'px');
     headerTitleStyle.setProperty('width', Math.floor(getHeightTitle() * title_lineHeight * 2 * title_width_to_height_ratio) + 'px');
 });
-console.log('logo created');
 
 },{}],"4yEOZ":[function(require,module,exports,__globalThis) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
@@ -814,7 +828,6 @@ async function getEvents(queryOptions) {
         if (queryOptions.id) path += `&id=${queryOptions.id}`;
         const res = await fetch(MAIN_URL + API_KEY + path);
         const data = await res.json();
-        console.log(data);
         return data;
     } catch (error) {
         console.log(error);
@@ -1946,24 +1959,46 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 // const pagContainer = document.querySelector('.pagination__pages');
 parcelHelpers.export(exports, "fillPag", ()=>fillPag);
-const createPagItem = (pageNum)=>`<div class="pagination__item"><p class="pagination__text">${pageNum}</p></div>`;
-function fillPag(container, currentPage, totalPages) {
+const createPagItem = (pageNum, accent = false)=>`<div class="pagination__item${accent ? ' pagination_accent' : ''}">${pageNum}</div>`;
+function fillPag(container, currentPage, totalPages, PathOptions) {
+    currentPage++;
     let leftNum = currentPage;
     let rightNum = totalPages - currentPage;
     let arr = currentPage > 5 ? [
         '1',
-        leftNum > 6 ? '...' : '2',
+        leftNum > 5 ? '...' : '2',
         (currentPage - 1).toString(),
         currentPage.toString(),
         (currentPage + 1).toString(),
-        rightNum > 6 ? '...' : (totalPages - 1).toString(),
+        rightNum > 5 ? '...' : (totalPages - 1).toString(),
         totalPages.toString()
-    ] : Array(Math.min(5, totalPages)).fill(0).map((_, idx)=>idx).concat(totalPages > 7 ? [
+    ] : Array(Math.min(5, totalPages)).fill(0).map((_, idx)=>String(idx + 1)).concat(totalPages > 7 ? [
         '...',
         totalPages.toString()
-    ] : Array(totalPages - 5).fill(0).map((_, idx)=>idx + 5));
-    // console.log(arr);
-    for (const element of arr)container.innerHTML += createPagItem(element);
+    ] : Array(Math.max(0, totalPages - 5)).fill(0).map((_, idx)=>String(idx + 1 + 5)));
+    container.innerHTML = '';
+    for (const element of arr)container.innerHTML += createPagItem(element, currentPage === Number(element));
+    container.querySelectorAll(".pagination__item").forEach((item)=>{
+        item.addEventListener('click', ()=>{
+            if (item.textContent === '...') {
+                item.innerHTML = `<input class="pagination__input" max="${totalPages}" min="1">`;
+                const itemInput = item.querySelector('.pagination__input');
+                itemInput.addEventListener('keyup', (ev)=>{
+                    if (ev.key === 'Enter') {
+                        PathOptions.page = Number(itemInput.value) - 1;
+                        item.innerHTML = '...';
+                        document.querySelector('.dataDiv').dataset.searchFlag = 'yes';
+                        fillPag(container, PathOptions.page, totalPages, PathOptions);
+                    }
+                });
+                itemInput.focus();
+            } else {
+                PathOptions.page = Math.min(Number(item.textContent), totalPages - 1) - 1;
+                document.querySelector('.dataDiv').dataset.searchFlag = 'yes';
+                fillPag(container, PathOptions.page, totalPages, PathOptions);
+            }
+        });
+    });
 }
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}]},["kJIY7","2xGku"], "2xGku", "parcelRequire491a", {})
