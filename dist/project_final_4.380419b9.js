@@ -719,6 +719,7 @@ var _apiJs = require("./api.js");
 var _dropdownJs = require("./dropdown.js");
 var _cardJs = require("./card.js");
 var _paginationJs = require("./pagination.js");
+var _animationJs = require("./animation.js");
 var _modalJs = require("./modal/modal.js");
 const dropdownDiv = document.querySelector('.dropdown__content');
 const eventCardList = document.querySelector('.event__card__list');
@@ -733,10 +734,23 @@ let PathOptions = {
 };
 (0, _dropdownJs.fillDropdown)('', dropdownDiv, PathOptions);
 function fillEvents() {
-    (0, _apiJs.getEvents)(PathOptions).then((data)=>{
-        (0, _cardJs.fillCardList)(eventCardList, (0, _apiJs.getEventData)(data));
-        (0, _paginationJs.fillPag)(pagContainer, PathOptions.page, data.page.totalPages, PathOptions);
+    let totalDelay = (0, _animationJs.animateAll)(eventCardList, {
+        delay: 250,
+        bunch: Number(eventCardList.style.getPropertyValue('--col-num')),
+        reverse: false
     });
+    // window.scroll({top: 0, behavior: 'smooth'});
+    setTimeout(()=>{
+        (0, _apiJs.getEvents)(PathOptions).then((data)=>{
+            (0, _cardJs.fillCardList)(eventCardList, (0, _apiJs.getEventData)(data));
+            (0, _animationJs.animateAll)(eventCardList, {
+                delay: 250,
+                bunch: Number(eventCardList.style.getPropertyValue('--col-num')),
+                reverse: true
+            });
+            (0, _paginationJs.fillPag)(pagContainer, PathOptions.page, data.page.totalPages, PathOptions);
+        });
+    }, totalDelay);
 }
 fillEvents();
 inputCountry.addEventListener('keyup', ()=>{
@@ -746,6 +760,7 @@ inputQuery.addEventListener('keyup', ()=>{
     PathOptions.query = inputQuery.value;
     fillEvents();
 });
+let arrWH = [];
 addEventListener('keydown', (ev)=>{
     if (ev.key === 'q') console.log('PathOptions:', PathOptions);
     if (ev.key === 'z') {
@@ -771,7 +786,7 @@ addEventListener('keydown', (ev)=>{
     }
 });
 
-},{"./logo.js":"2GRI6","./api.js":"4yEOZ","./dropdown.js":"2nhSG","./modal/modal.js":"lLLVz","./card.js":"iiT7g","./pagination.js":"80yTG"}],"2GRI6":[function(require,module,exports,__globalThis) {
+},{"./logo.js":"2GRI6","./api.js":"4yEOZ","./dropdown.js":"2nhSG","./modal/modal.js":"lLLVz","./card.js":"iiT7g","./pagination.js":"80yTG","./animation.js":"7pPsX"}],"2GRI6":[function(require,module,exports,__globalThis) {
 const headerStyle = document.querySelector('.header').style;
 const headerTitleStyle = document.querySelector('.header__title').style;
 const bg_coeff_linear = 0.13565;
@@ -1891,29 +1906,25 @@ const modalTitle = document.getElementById("modal-title");
 const modalDate = document.getElementById("modal-date");
 const modalDescription = document.getElementById("modal-description");
 const modalLink = document.getElementById("modal-link");
-const closeBtn = document.querySelector(".modal-close");
 const modalWho = document.getElementById("modal-who");
 const modalWhere = document.getElementById("modal-where");
+const closeBtn = document.querySelector(".modal-close");
 function fillModal(data) {
-    // і поміняти image,title,description,date... на правильні
-    // щоб дізнатися правильні запусти і подивися на обʼєкт у консолі
-    modalImage.src = card.dataset.image;
-    modalTitle.textContent = card.dataset.title;
-    modalDescription.textContent = card.dataset.description;
-    modalDate.textContent = card.dataset.date;
-    modalWho.textContent = card.dataset.title;
-    modalWhere.textContent = card.dataset.where || "Unknown location";
-    modalLink.href = card.dataset.link;
+    const event = (0, _apiJs.getEventData)(data)[0];
+    modalImage.src = event.images?.[0]?.url || "";
+    modalTitle.textContent = event.name || "";
+    modalDescription.textContent = event.info || "";
+    modalDate.textContent = (event.dates?.start?.localDate || "") + " " + (event.dates?.start?.localTime || "");
+    modalWho.textContent = event._embedded?.attractions?.[0]?.name || "";
+    modalWhere.textContent = (event._embedded?.venues?.[0]?.city?.name || "") + ", " + (event._embedded?.venues?.[0]?.country?.name || "");
+    modalLink.href = event.url || "#";
     modal.style.display = "flex";
 }
 document.querySelector(".event__card__list").addEventListener("click", (e)=>{
-    const card1 = e.target.closest(".event__card");
-    if (!card1) return;
+    const card = e.target.closest(".event__card");
+    if (!card) return;
     (0, _apiJs.getEvents)({
-        id: card1.dataset.id
-    }).then((data)=>{
-        console.log((0, _apiJs.getEventData)(data)[0]);
-        return data;
+        id: card.dataset.id
     }).then((data)=>fillModal(data));
 });
 closeBtn.addEventListener("click", ()=>{
@@ -1999,6 +2010,80 @@ function fillPag(container, currentPage, totalPages, PathOptions) {
             }
         });
     });
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"7pPsX":[function(require,module,exports,__globalThis) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "animateAll", ()=>animateAll);
+function propertyTimer(duration, funcInterval, funcEnd) {
+    let intervalId = -1;
+    let t = 0;
+    intervalId = setInterval(()=>{
+        if (t > 1 && intervalId !== -1) {
+            clearInterval(intervalId);
+            intervalId = -1;
+            funcEnd();
+        }
+        funcInterval(t);
+        t += 10 / duration;
+    }, 10);
+}
+function animate(element, options = {
+    bunch: 1,
+    reverse: false
+}) {
+    let duration = 250;
+    if (element) {
+        if (options.reverse) {
+            let animationFunc = (t)=>{
+                element.style.display = 'block';
+                element.style.transform = `translateY(-${75 * (1 - Math.sqrt(t))}%)`;
+                element.style.opacity = Math.cbrt(t);
+            };
+            let endingFunc = ()=>{
+                element.style.transform = '';
+                element.style.opacity = 1;
+                window.scrollBy({
+                    top: element.clientHeight,
+                    behavior: 'smooth'
+                });
+            };
+            propertyTimer(duration, animationFunc, endingFunc);
+        } else {
+            let animationFunc = (t)=>{
+                element.style.transform = `translateY(${75 * Math.sqrt(t)}%)`;
+                element.style.opacity = 1 - Math.cbrt(t);
+            };
+            let endingFunc = ()=>{
+                element.remove();
+            };
+            window.scrollBy({
+                top: -element.clientHeight / options.bunch,
+                behavior: 'smooth'
+            });
+            propertyTimer(duration, animationFunc, endingFunc);
+        }
+    }
+}
+function animateAll(elementList, options = {
+    delay: 0,
+    bunch: 1,
+    reverse: false
+}) {
+    if (options.reverse) {
+        for(let i = 0; i < Math.ceil(elementList.children.length / options.bunch); i++)for(let bunchNum = 0; bunchNum < options.bunch; bunchNum++){
+            elementList.children[i * options.bunch + bunchNum].style.display = 'none';
+            setTimeout(()=>{
+                animate(elementList.children[i * options.bunch + bunchNum], options);
+            }, options.delay * i);
+        }
+    } else {
+        for(let i = Math.ceil(elementList.children.length / options.bunch); i > -1; i--)for(let bunchNum = 0; bunchNum < options.bunch; bunchNum++)setTimeout(()=>{
+            animate(elementList.children[i * options.bunch + bunchNum]);
+        }, options.delay * (Math.ceil(elementList.children.length / options.bunch) - i));
+    }
+    return options.delay * (Math.ceil(elementList.children.length / options.bunch) + 1);
 }
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}]},["kJIY7","2xGku"], "2xGku", "parcelRequire491a", {})
