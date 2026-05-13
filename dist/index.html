@@ -1,28 +1,42 @@
 <!DOCTYPE html><html lang="en"><head>
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
+
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&amp;display=swap" rel="stylesheet">
-    <title>Document</title>
+
+    <link href="f59904cfc0463000" rel="stylesheet">
+
+    <title>Events</title>
+
     <link rel="stylesheet" href="/project_final_4.34df27b5.css">
   </head>
+
   <body>
     <div class="dataDiv" data-searchflag="no"></div>
+
     <header class="header">
       <h1 class="header__title">FIND BEST EVENTS AROUND THE WORLD</h1>
+
       <div class="header__inputs">
         <div class="header__input__wrap">
           <input type="text" class="input__query" data-query="" placeholder="Start searching">
+
           <img class="input__icon__search" src="/search_icon.06d55c78.svg">
         </div>
+
         <div class="header__input__wrap dropdown">
           <input type="text" class="input__country" data-code="-1" placeholder="Choose country">
+
           <img class="input__icon__dropdown" src="/dropdown_icon.ba16a528.svg">
+
           <div class="dropdown__content"></div>
         </div>
       </div>
     </header>
+
     <main class="main">
       <ul class="event__card__list"></ul>
 
@@ -31,59 +45,76 @@
           <div class="modal-content">
             <button type="button" class="modal-close">×</button>
 
-            <div class="modal-body">
+            <div class="modal-left">
+              
+
               <img id="modal-image" src="#" alt="event image">
+            </div>
 
-              <div class="modal-info">
-                <h2 id="modal-title"></h2>
-
-                <div class="modal-section">
-                  <h4>INFO</h4>
-                  <p id="modal-description"></p>
-                </div>
-
-                <div class="modal-section">
-                  <h4>WHO</h4>
-                  <p id="modal-who"></p>
-                </div>
-
-                <div class="modal-section">
-                  <h4>WHEN</h4>
-                  <p id="modal-date"></p>
-                </div>
-
-                <div class="modal-section">
-                  <h4>WHERE</h4>
-                  <p id="modal-where"></p>
-                </div>
-
-                <div class="modal-section">
-                  <h4>PRICES</h4>
-
-                  <div class="price-item">
-                    <span>Standard 300-500 UAH</span>
-                    <a href="#">BUY TICKETS</a>
-                  </div>
-
-                  <div class="price-item">
-                    <span>VIP 1000-1500 UAH</span>
-                    <a href="#">BUY TICKETS</a>
-                  </div>
-                </div>
-
-                <a id="modal-link" target="_blank"> MORE FROM THIS AUTHOR </a>
+            <div class="modal-right">
+              <div style="30ed9fb7c6dd6dd0">
+                <img id="modal-small-image" src="#" alt="artist" style="a19d39602a5b482a">
               </div>
+
+              <div class="modal-section">
+                <h4>INFO</h4>
+
+                <p id="modal-description"></p>
+              </div>
+
+              <div class="modal-section">
+                <h4>WHEN</h4>
+
+                <p id="modal-date"></p>
+              </div>
+
+              <div class="modal-section">
+                <h4>WHERE</h4>
+
+                <p id="modal-where"></p>
+              </div>
+
+              <div class="modal-section">
+                <h4>WHO</h4>
+
+                <p id="modal-who"></p>
+              </div>
+
+              <div class="modal-section">
+                <h4>PRICES</h4>
+
+                <div class="price-item">
+                  <span>Standard 300-500 UAH</span>
+
+                  <a id="standard-ticket" href="#" target="_blank">
+                    BUY TICKETS
+                  </a>
+                </div>
+
+                <div class="price-item" style="8fc2bdf236cb5282">
+                  <span>VIP 1000-1500 UAH</span>
+
+                  <a id="vip-ticket" href="#" target="_blank"> BUY TICKETS </a>
+                </div>
+              </div>
+
+              <a id="modal-link" class="more-btn" target="_blank" style="d31d50281a2c5ad5">
+                MORE FROM THIS AUTHOR
+              </a>
             </div>
           </div>
         </div>
       </section>
     </main>
+
     <footer class="footer">
       <div class="pagination__pages"></div>
+
       <p class="copyright__text">
         © 2021 | All Rights Reserved | Developed with ♥ by GoIT Students
       </p>
     </footer>
+
     <script type="module" src="/project_final_4.380419b9.js"></script>
   
 

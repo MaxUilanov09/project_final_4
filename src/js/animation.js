@@ -13,8 +13,7 @@ function propertyTimer(duration, funcInterval, funcEnd) {
     }, 10)
 }
 
-function animate(element, options = {bunch: 1, reverse: false}) {
-    let duration = 250;
+function animate(element, options = {delay: 0, bunch: 1, reverse: false}) {
     if (element) {
         if (options.reverse) {
             let animationFunc = (t) => {
@@ -27,7 +26,7 @@ function animate(element, options = {bunch: 1, reverse: false}) {
                 element.style.opacity = 1;
                 window.scrollBy({top: element.clientHeight, behavior: 'smooth'});
             }            
-            propertyTimer(duration, animationFunc, endingFunc);
+            propertyTimer(options.delay, animationFunc, endingFunc);
         }
         else {
             let animationFunc = (t) => {
@@ -38,8 +37,8 @@ function animate(element, options = {bunch: 1, reverse: false}) {
                 element.remove();
                 
             }
-            window.scrollBy({top: -element.clientHeight / options.bunch, behavior: 'smooth'});
-            propertyTimer(duration, animationFunc, endingFunc);
+            window.scrollBy({top: -element.clientHeight, behavior: 'smooth'});
+            propertyTimer(options.delay, animationFunc, endingFunc);
         }
     }
 }
@@ -48,10 +47,12 @@ export function animateAll(elementList, options = {delay: 0, bunch: 1, reverse: 
     if (options.reverse) {
         for (let i = 0; i < Math.ceil(elementList.children.length / options.bunch); i++) {
             for (let bunchNum = 0; bunchNum < options.bunch; bunchNum++) {
-                elementList.children[i * options.bunch + bunchNum].style.display = 'none';
-                setTimeout(() => {
-                    animate(elementList.children[i * options.bunch + bunchNum], options);
-                }, options.delay * i);
+                if (i * options.bunch + bunchNum < elementList.children.length) {
+                    elementList.children[i * options.bunch + bunchNum].style.display = 'none';
+                    setTimeout(() => {
+                        animate(elementList.children[i * options.bunch + bunchNum], options);
+                    }, options.delay * i);
+                }
             }
         }
     }
@@ -59,7 +60,7 @@ export function animateAll(elementList, options = {delay: 0, bunch: 1, reverse: 
         for (let i = Math.ceil(elementList.children.length / options.bunch); i > -1; i--) {
             for (let bunchNum = 0; bunchNum < options.bunch; bunchNum++) {
                 setTimeout(() => {
-                    animate(elementList.children[i * options.bunch + bunchNum]);
+                    animate(elementList.children[i * options.bunch + bunchNum], options);
                 }, options.delay * (Math.ceil(elementList.children.length / options.bunch) - i));
             }
         }

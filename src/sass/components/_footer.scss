@@ -34,14 +34,14 @@
     background-color: transparent;
     color: white;
     text-align: center;
-    @include mixins.text(14px, 30/14, 400);
+    @include mixins.text(14px, 2.14, 400);
 }
 
 .copyright__text {
     text-align: center;
     margin: 0 auto;
     color: variables.$header-input-text-color;
-    @include mixins.text(16px, 30/14, 400);
+    @include mixins.text(16px, 2.14, 400);
 }
 
 @media (min-width: 768px) {

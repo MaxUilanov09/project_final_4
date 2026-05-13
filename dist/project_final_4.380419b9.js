@@ -739,7 +739,6 @@ function fillEvents() {
         bunch: Number(eventCardList.style.getPropertyValue('--col-num')),
         reverse: false
     });
-    // window.scroll({top: 0, behavior: 'smooth'});
     setTimeout(()=>{
         (0, _apiJs.getEvents)(PathOptions).then((data)=>{
             (0, _cardJs.fillCardList)(eventCardList, (0, _apiJs.getEventData)(data));
@@ -1902,36 +1901,48 @@ function fillDropdown(query, container, PathOptions) {
 var _apiJs = require("../api.js");
 const modal = document.getElementById("modal");
 const modalImage = document.getElementById("modal-image");
-const modalTitle = document.getElementById("modal-title");
+const modalSmallImage = document.getElementById("modal-small-image");
 const modalDate = document.getElementById("modal-date");
 const modalDescription = document.getElementById("modal-description");
 const modalLink = document.getElementById("modal-link");
 const modalWho = document.getElementById("modal-who");
 const modalWhere = document.getElementById("modal-where");
+const standardTicket = document.getElementById("standard-ticket");
+const vipTicket = document.getElementById("vip-ticket");
 const closeBtn = document.querySelector(".modal-close");
 function fillModal(data) {
     const event = (0, _apiJs.getEventData)(data)[0];
-    modalImage.src = event.images?.[0]?.url || "";
-    modalTitle.textContent = event.name || "";
-    modalDescription.textContent = event.info || "";
-    modalDate.textContent = (event.dates?.start?.localDate || "") + " " + (event.dates?.start?.localTime || "");
-    modalWho.textContent = event._embedded?.attractions?.[0]?.name || "";
-    modalWhere.textContent = (event._embedded?.venues?.[0]?.city?.name || "") + ", " + (event._embedded?.venues?.[0]?.country?.name || "");
+    const image = event.images?.find((img)=>img.ratio === "4_3")?.url || event.images?.[0]?.url || "";
+    modalImage.src = image;
+    modalSmallImage.src = image;
+    modalDescription.textContent = event.info || "Information about this event is not available.";
+    modalDate.textContent = `${event.dates?.start?.localDate || ""} 
+     ${event.dates?.start?.localTime || ""}`;
+    modalWho.textContent = event._embedded?.attractions?.[0]?.name || "Unknown artist";
+    modalWhere.textContent = `${event._embedded?.venues?.[0]?.city?.name || ""}
+     ${event._embedded?.venues?.[0]?.country?.name || ""}`;
     modalLink.href = event.url || "#";
+    standardTicket.href = event.url || "#";
+    vipTicket.href = event.url || "#";
     modal.style.display = "flex";
+    document.body.style.overflow = "hidden";
 }
 document.querySelector(".event__card__list").addEventListener("click", (e)=>{
     const card = e.target.closest(".event__card");
     if (!card) return;
     (0, _apiJs.getEvents)({
         id: card.dataset.id
-    }).then((data)=>fillModal(data));
+    }).then((data)=>fillModal(data)).catch((err)=>console.log(err));
 });
 closeBtn.addEventListener("click", ()=>{
     modal.style.display = "none";
+    document.body.style.overflow = "auto";
 });
 modal.addEventListener("click", (e)=>{
-    if (e.target === modal) modal.style.display = "none";
+    if (e.target === modal) {
+        modal.style.display = "none";
+        document.body.style.overflow = "auto";
+    }
 });
 
 },{"../api.js":"4yEOZ"}],"iiT7g":[function(require,module,exports,__globalThis) {
@@ -1970,41 +1981,55 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 // const pagContainer = document.querySelector('.pagination__pages');
 parcelHelpers.export(exports, "fillPag", ()=>fillPag);
-const createPagItem = (pageNum, accent = false)=>`<div class="pagination__item${accent ? ' pagination_accent' : ''}">${pageNum}</div>`;
+const createPagItem = (pageNum, accent = false)=>{
+    if (pageNum !== '>' && pageNum !== '<') return `<div data-pageid="${pageNum}" class="pagination__item${accent ? ' pagination_accent' : ''}">${pageNum}</div>`;
+    else if (pageNum === '>') return `<div data-pageid="${pageNum}" class="pagination__item${accent ? ' pagination_accent' : ''}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 22 15 16 9 10"></polyline></svg></div>`;
+    else if (pageNum === '<') return `<div data-pageid="${pageNum}" class="pagination__item${accent ? ' pagination_accent' : ''}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 22 9 16 15 10"></polyline></svg></div>`;
+};
 function fillPag(container, currentPage, totalPages, PathOptions) {
     currentPage++;
     let leftNum = currentPage;
     let rightNum = totalPages - currentPage;
     let arr = currentPage > 5 ? [
         '1',
-        leftNum > 5 ? '...' : '2',
+        leftNum > 5 ? '<' : '2',
         (currentPage - 1).toString(),
         currentPage.toString(),
         (currentPage + 1).toString(),
-        rightNum > 5 ? '...' : (totalPages - 1).toString(),
+        rightNum > 5 ? '>' : (totalPages - 1).toString(),
         totalPages.toString()
     ] : Array(Math.min(5, totalPages)).fill(0).map((_, idx)=>String(idx + 1)).concat(totalPages > 7 ? [
-        '...',
+        '>',
         totalPages.toString()
     ] : Array(Math.max(0, totalPages - 5)).fill(0).map((_, idx)=>String(idx + 1 + 5)));
     container.innerHTML = '';
     for (const element of arr)container.innerHTML += createPagItem(element, currentPage === Number(element));
     container.querySelectorAll(".pagination__item").forEach((item)=>{
         item.addEventListener('click', ()=>{
-            if (item.textContent === '...') {
+            if (item.dataset.pageid === currentPage) {
                 item.innerHTML = `<input class="pagination__input" max="${totalPages}" min="1">`;
                 const itemInput = item.querySelector('.pagination__input');
                 itemInput.addEventListener('keyup', (ev)=>{
                     if (ev.key === 'Enter') {
                         PathOptions.page = Number(itemInput.value) - 1;
-                        item.innerHTML = '...';
+                        item.innerHTML = currentPage;
                         document.querySelector('.dataDiv').dataset.searchFlag = 'yes';
                         fillPag(container, PathOptions.page, totalPages, PathOptions);
                     }
                 });
                 itemInput.focus();
+            } else if (item.dataset.pageid === '>') {
+                console.log(PathOptions);
+                PathOptions.page = Math.max(0, Math.min(Number(currentPage + 5), totalPages - 1) - 1);
+                console.log(PathOptions);
+                document.querySelector('.dataDiv').dataset.searchFlag = 'yes';
+                fillPag(container, PathOptions.page, totalPages, PathOptions);
+            } else if (item.dataset.pageid === '<') {
+                PathOptions.page = Math.max(0, Math.min(Number(currentPage - 5), totalPages - 1) - 1);
+                document.querySelector('.dataDiv').dataset.searchFlag = 'yes';
+                fillPag(container, PathOptions.page, totalPages, PathOptions);
             } else {
-                PathOptions.page = Math.min(Number(item.textContent), totalPages - 1) - 1;
+                PathOptions.page = Math.max(0, Math.min(Number(item.textContent), totalPages - 1) - 1);
                 document.querySelector('.dataDiv').dataset.searchFlag = 'yes';
                 fillPag(container, PathOptions.page, totalPages, PathOptions);
             }
@@ -2030,10 +2055,10 @@ function propertyTimer(duration, funcInterval, funcEnd) {
     }, 10);
 }
 function animate(element, options = {
+    delay: 0,
     bunch: 1,
     reverse: false
 }) {
-    let duration = 250;
     if (element) {
         if (options.reverse) {
             let animationFunc = (t)=>{
@@ -2049,7 +2074,7 @@ function animate(element, options = {
                     behavior: 'smooth'
                 });
             };
-            propertyTimer(duration, animationFunc, endingFunc);
+            propertyTimer(options.delay, animationFunc, endingFunc);
         } else {
             let animationFunc = (t)=>{
                 element.style.transform = `translateY(${75 * Math.sqrt(t)}%)`;
@@ -2059,10 +2084,10 @@ function animate(element, options = {
                 element.remove();
             };
             window.scrollBy({
-                top: -element.clientHeight / options.bunch,
+                top: -element.clientHeight,
                 behavior: 'smooth'
             });
-            propertyTimer(duration, animationFunc, endingFunc);
+            propertyTimer(options.delay, animationFunc, endingFunc);
         }
     }
 }
@@ -2071,16 +2096,17 @@ function animateAll(elementList, options = {
     bunch: 1,
     reverse: false
 }) {
-    if (options.reverse) {
-        for(let i = 0; i < Math.ceil(elementList.children.length / options.bunch); i++)for(let bunchNum = 0; bunchNum < options.bunch; bunchNum++){
+    if (options.reverse) for(let i = 0; i < Math.ceil(elementList.children.length / options.bunch); i++){
+        for(let bunchNum = 0; bunchNum < options.bunch; bunchNum++)if (i * options.bunch + bunchNum < elementList.children.length) {
             elementList.children[i * options.bunch + bunchNum].style.display = 'none';
             setTimeout(()=>{
                 animate(elementList.children[i * options.bunch + bunchNum], options);
             }, options.delay * i);
         }
-    } else {
+    }
+    else {
         for(let i = Math.ceil(elementList.children.length / options.bunch); i > -1; i--)for(let bunchNum = 0; bunchNum < options.bunch; bunchNum++)setTimeout(()=>{
-            animate(elementList.children[i * options.bunch + bunchNum]);
+            animate(elementList.children[i * options.bunch + bunchNum], options);
         }, options.delay * (Math.ceil(elementList.children.length / options.bunch) - i));
     }
     return options.delay * (Math.ceil(elementList.children.length / options.bunch) + 1);

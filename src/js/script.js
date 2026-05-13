@@ -25,7 +25,6 @@ fillDropdown('', dropdownDiv, PathOptions);
 
 function fillEvents() {
     let totalDelay = animateAll(eventCardList, {delay: 250, bunch: Number(eventCardList.style.getPropertyValue('--col-num')), reverse: false});
-    // window.scroll({top: 0, behavior: 'smooth'});
     setTimeout(() => {
         getEvents(PathOptions)
             .then(data => {

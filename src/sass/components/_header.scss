@@ -86,6 +86,14 @@
         @include mixins.text(16px, 1.25, 400);
     }
 
+    &__query:focus-visible {
+        outline: none;
+    }
+
+    &__country:focus-visible {
+        outline: none;
+    }
+
     &__icon {
         &__search {
             width: 12px;
