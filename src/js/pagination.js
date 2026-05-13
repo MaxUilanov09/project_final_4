@@ -1,12 +1,12 @@
 const createPagItem = (pageNum, accent = false) => {
     if (pageNum !== '>' && pageNum !== '<') {
-        return `<div data-pageid="${pageNum}" class="pagination__item${(accent) ? ' pagination_accent' : ''}">${pageNum}</div>`
+        return `<div data-pageid="${pageNum}" class="pagination__item${(accent) ? ' pagination_accent' : ''}"><p style="transform: translateY(-2px)">${pageNum}</p></div>`
     }
     else if (pageNum === '>') {
-        return `<div data-pageid="${pageNum}" class="pagination__item${(accent) ? ' pagination_accent' : ''}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 22 15 16 9 10"></polyline></svg></div>`
+        return `<div data-pageid="${pageNum}" class="pagination__item${(accent) ? ' pagination_accent' : ''}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></div>`
     }
     else if (pageNum === '<') {
-        return `<div data-pageid="${pageNum}" class="pagination__item${(accent) ? ' pagination_accent' : ''}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 22 9 16 15 10"></polyline></svg></div>`
+        return `<div data-pageid="${pageNum}" class="pagination__item${(accent) ? ' pagination_accent' : ''}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg></div>`
     }
 }
 
