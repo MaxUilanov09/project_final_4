@@ -24,8 +24,9 @@ const closeBtn = document.querySelector(".modal-close");
 
 function fillModal(data) {
   const event = getEventData(data)[0];
-
+  
   const image =
+    event.images.toSorted((a, b) => Math.abs(700 - a.height) - Math.abs(700 - b.height))[0].url ||
     event.images?.find((img) => img.ratio === "4_3")?.url ||
     event.images?.[0]?.url ||
     "";
